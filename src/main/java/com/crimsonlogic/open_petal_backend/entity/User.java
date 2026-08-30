@@ -1,0 +1,78 @@
+package com.crimsonlogic.open_petal_backend.entity;
+
+import com.crimsonlogic.open_petal_backend.enumerator.Gender;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auth_id", nullable = false, unique = true)
+    private Login login;
+
+    @NotBlank(message = "First name is mandatory")
+    @Pattern(regexp = "^[A-Za-z\\s]+$", message = "First name must contain only letters")
+    @Column(name = "first_name", length = 100, nullable = false)
+    private String firstName;
+
+    @NotBlank(message = "Last name is mandatory")
+    @Pattern(regexp = "^[A-Za-z\\s]+$", message = "Last name must contain only letters")
+    @Column(name = "last_name", length = 100, nullable = false)
+    private String lastName;
+
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Please provide a valid email address")
+    @Column(nullable = false, unique = true, length = 255)
+    private String email;
+
+    @Pattern(regexp = "^\\d{10}$", message = "Phone number must be exactly 10 digits")
+    @Column(name = "phone", length = 20)
+    private String phone;
+
+    @Column(name = "dob")
+    private LocalDate dob;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", length = 20)
+    private Gender gender;
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
+
+
+    @AssertTrue(message = "You must be at least 28 years old")
+    public boolean isOfValidAge() {
+        if (dob == null) {
+            return false;
+        }
+        return java.time.Period.between(dob, LocalDate.now()).getYears() >= 28;
+    }
+}
