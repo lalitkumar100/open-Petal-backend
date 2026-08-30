@@ -68,11 +68,11 @@ public class User {
 
 
 
-    @AssertTrue(message = "You must be at least 28 years old")
+    @AssertTrue(message = "You must be at least 18 years old")
     public boolean isOfValidAge() {
         if (dob == null) {
             return false;
         }
-        return java.time.Period.between(dob, LocalDate.now()).getYears() >= 28;
+        return java.time.Period.between(dob, LocalDate.now()).getYears() >= 18;
     }
 }

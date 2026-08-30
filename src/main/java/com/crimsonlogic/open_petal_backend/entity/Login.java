@@ -49,7 +49,10 @@ public class Login {
     @Builder.Default
     private AccountStatus status = AccountStatus.BLOCKED;
 
-    @Column(name = "last_login_at")
+    @Column(
+            name = "last_login_at",
+            columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
     private LocalDateTime lastLoginAt;
 
     @CreationTimestamp

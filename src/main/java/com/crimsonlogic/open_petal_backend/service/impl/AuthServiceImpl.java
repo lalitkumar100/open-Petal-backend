@@ -49,6 +49,8 @@ public class AuthServiceImpl implements AuthService {
         Login login = new Login();
         login.setEmail(request.getEmail());
         login.hashPassword(request.getPassword());
+        login.setLastLoginAt(LocalDateTime.now());
+      
         
         login = loginRepository.save(login);
 
