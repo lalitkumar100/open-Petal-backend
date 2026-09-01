@@ -1,8 +1,13 @@
 package com.crimsonlogic.open_petal_backend.service;
 
+import com.crimsonlogic.open_petal_backend.dto.skill.CreateUserSkillDto;
+import com.crimsonlogic.open_petal_backend.dto.skill.UpdateUserSkillDto;
+import com.crimsonlogic.open_petal_backend.entity.UserSkill;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class EmailService {
@@ -48,5 +53,18 @@ public class EmailService {
             System.err.println("Failed to send password reset email. Reset Token is: " + token);
             e.printStackTrace();
         }
+    }
+
+    public static interface UserSkillService {
+
+        UserSkill addSkillToUser(Long userId, CreateUserSkillDto dto);
+
+        UserSkill updateUserSkill(Long userId, Long skillId, UpdateUserSkillDto dto);
+
+        void removeSkillFromUser(Long userId, Long skillId);
+
+        List<UserSkill> getAllSkillsByUser(Long userId);
+
+        UserSkill getUserSkillDetails(Long userId, Long skillId);
     }
 }

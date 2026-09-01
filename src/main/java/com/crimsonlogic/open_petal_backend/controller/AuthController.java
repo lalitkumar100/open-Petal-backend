@@ -1,12 +1,12 @@
 package com.crimsonlogic.open_petal_backend.controller;
 
 import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
-import com.crimsonlogic.open_petal_backend.dto.LoginRequestDto;
-import com.crimsonlogic.open_petal_backend.dto.LoginResponseDto;
-import com.crimsonlogic.open_petal_backend.dto.RegisterRequestDto;
-import com.crimsonlogic.open_petal_backend.dto.RegisterResponseDto;
-import com.crimsonlogic.open_petal_backend.dto.ForgotPasswordRequestDto;
-import com.crimsonlogic.open_petal_backend.dto.ResetPasswordRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.LoginRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.LoginResponseDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.RegisterRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.RegisterResponseDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.ForgotPasswordRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.ResetPasswordRequestDto;
 import com.crimsonlogic.open_petal_backend.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

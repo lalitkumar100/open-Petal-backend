@@ -1,11 +1,15 @@
-package com.crimsonlogic.open_petal_backend.dto;
+package com.crimsonlogic.open_petal_backend.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class ResetPasswordRequestDto {
+public class ChangePasswordRequestDto {
+
+    @NotBlank(message = "Current password is mandatory")
+    private String currentPassword;
+
     @NotBlank(message = "New password is mandatory")
     @Size(min = 8, message = "New password must be at least 8 characters long")
     private String newPassword;

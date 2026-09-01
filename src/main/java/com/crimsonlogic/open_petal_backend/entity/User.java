@@ -3,10 +3,7 @@ package com.crimsonlogic.open_petal_backend.entity;
 import com.crimsonlogic.open_petal_backend.enumerator.Gender;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,6 +11,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -58,6 +57,11 @@ public class User {
     @Column(name = "gender", length = 20)
     private Gender gender;
 
+    // Up to 300 characters including spaces
+    @Size(max = 300, message = "Description cannot exceed 300 characters")
+    @Column(name = "description", length = 300)
+    private String description;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -66,6 +70,20 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+
+    // 1. Skills the user knows & can teach
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<UserSkill> skillsOffered = new ArrayList<>();
+
+    // 2. Skills the user wants to learn
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<LearningGoal> learningGoals = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<UserAvailability> AvailableTimeInWeek = new ArrayList<>();
 
 
     @AssertTrue(message = "You must be at least 18 years old")

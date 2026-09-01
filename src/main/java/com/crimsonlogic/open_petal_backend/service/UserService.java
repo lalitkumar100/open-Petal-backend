@@ -1,5 +1,6 @@
 package com.crimsonlogic.open_petal_backend.service;
 
+import com.crimsonlogic.open_petal_backend.dto.user.AvailabilitySlot;
 import com.crimsonlogic.open_petal_backend.entity.User;
 import java.util.List;
 import java.util.Optional;
@@ -13,4 +14,8 @@ public interface UserService {
     void deleteUser(Long id);
     void blockUser(Long id);
     void unblockUser(Long id);
+
+    List<AvailabilitySlot> addAvailabilitySlot(Long userId, AvailabilitySlot newSlot);
+    List<AvailabilitySlot> getUserAvailabilitySlots(Long userId);
+    List<AvailabilitySlot> removeAvailabilitySlot(Long userId, AvailabilitySlot slotToRemove);
 }

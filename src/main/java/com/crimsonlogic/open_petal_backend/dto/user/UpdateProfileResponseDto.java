@@ -1,4 +1,4 @@
-package com.crimsonlogic.open_petal_backend.dto;
+package com.crimsonlogic.open_petal_backend.dto.user;
 
 import com.crimsonlogic.open_petal_backend.enumerator.Gender;
 import lombok.Builder;

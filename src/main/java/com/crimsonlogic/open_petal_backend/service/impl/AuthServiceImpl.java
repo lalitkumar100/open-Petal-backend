@@ -1,18 +1,18 @@
 package com.crimsonlogic.open_petal_backend.service.impl;
 
-import com.crimsonlogic.open_petal_backend.dto.RegisterRequestDto;
-import com.crimsonlogic.open_petal_backend.dto.RegisterResponseDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.RegisterRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.RegisterResponseDto;
 import com.crimsonlogic.open_petal_backend.entity.Login;
 import com.crimsonlogic.open_petal_backend.entity.User;
 import com.crimsonlogic.open_petal_backend.exception.RecordNotFoundException;
 import com.crimsonlogic.open_petal_backend.repository.LoginRepository;
 import com.crimsonlogic.open_petal_backend.repository.UserRepository;
 import com.crimsonlogic.open_petal_backend.service.AuthService;
-import com.crimsonlogic.open_petal_backend.dto.LoginRequestDto;
-import com.crimsonlogic.open_petal_backend.dto.LoginResponseDto;
-import com.crimsonlogic.open_petal_backend.dto.ChangePasswordRequestDto;
-import com.crimsonlogic.open_petal_backend.dto.ForgotPasswordRequestDto;
-import com.crimsonlogic.open_petal_backend.dto.ResetPasswordRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.LoginRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.LoginResponseDto;
+import com.crimsonlogic.open_petal_backend.dto.user.ChangePasswordRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.ForgotPasswordRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.auth.ResetPasswordRequestDto;
 import com.crimsonlogic.open_petal_backend.enumerator.AccountStatus;
 import com.crimsonlogic.open_petal_backend.util.JwtUtil;
 import com.crimsonlogic.open_petal_backend.service.EmailService;

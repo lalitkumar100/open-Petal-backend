@@ -1,19 +1,21 @@
-package com.crimsonlogic.open_petal_backend.dto;
+package com.crimsonlogic.open_petal_backend.dto.auth;
 
 import com.crimsonlogic.open_petal_backend.enumerator.AccountStatus;
 import com.crimsonlogic.open_petal_backend.enumerator.RoleType;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
-public class LoginResponseDto {
-    private String token;
-    private String tokenType;
-    private long expiresIn;
+public class RegisterResponseDto {
     private Long userId;
+    private Long authId;
     private String email;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private RoleType role;
     private AccountStatus status;
+    private LocalDateTime createdAt;
 }

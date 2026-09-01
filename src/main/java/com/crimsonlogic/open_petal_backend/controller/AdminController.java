@@ -1,15 +1,13 @@
 package com.crimsonlogic.open_petal_backend.controller;
 
 import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
-import com.crimsonlogic.open_petal_backend.dto.UserProfileDto;
+import com.crimsonlogic.open_petal_backend.dto.user.UserProfileDto;
 import com.crimsonlogic.open_petal_backend.entity.User;
 import com.crimsonlogic.open_petal_backend.exception.AuthenticationException;
 import com.crimsonlogic.open_petal_backend.exception.AuthorizationException;
-import com.crimsonlogic.open_petal_backend.exception.CustomException;
 import com.crimsonlogic.open_petal_backend.exception.RecordNotFoundException;
 import com.crimsonlogic.open_petal_backend.service.AuthService;
 import com.crimsonlogic.open_petal_backend.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
