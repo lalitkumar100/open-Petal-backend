@@ -2,12 +2,17 @@ package com.crimsonlogic.open_petal_backend.controller;
 
 import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
 import com.crimsonlogic.open_petal_backend.dto.user.UserProfileDto;
+import com.crimsonlogic.open_petal_backend.dto.user.UserStatusUpdateDto;
 import com.crimsonlogic.open_petal_backend.entity.User;
 import com.crimsonlogic.open_petal_backend.exception.AuthenticationException;
 import com.crimsonlogic.open_petal_backend.exception.AuthorizationException;
 import com.crimsonlogic.open_petal_backend.exception.RecordNotFoundException;
 import com.crimsonlogic.open_petal_backend.service.AuthService;
 import com.crimsonlogic.open_petal_backend.service.UserService;
+import com.crimsonlogic.open_petal_backend.dto.query.AdminQueryReplyDto;
+import com.crimsonlogic.open_petal_backend.entity.UserQuery;
+import com.crimsonlogic.open_petal_backend.enumerator.QueryStatus;
+import com.crimsonlogic.open_petal_backend.service.UserQueryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +25,12 @@ public class AdminController {
 
     private final AuthService authService;
     private final UserService userService;
+    private final UserQueryService userQueryService;
 
-    public AdminController(AuthService authService, UserService userService) {
+    public AdminController(AuthService authService, UserService userService, UserQueryService userQueryService) {
         this.authService = authService;
         this.userService = userService;
+        this.userQueryService = userQueryService;
     }
 
     @GetMapping("/dashboard")
@@ -51,20 +58,48 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse<>(true, "User retrieved successfully", mapToDto(user)));
     }
 
-    @PutMapping("/users/{id}/block")
+    @PatchMapping("/users/{id}/block")
     public ResponseEntity<ApiResponse<String>> blockUser(@RequestHeader(value = "Authorization", required = false) String authHeader,
-                                                         @PathVariable Long id) {
+                                                         @PathVariable Long id,
+                                                         @RequestBody(required = false) UserStatusUpdateDto statusUpdateDto) {
         authenticateAndGetEmail(authHeader); // Validate admin
-        userService.blockUser(id);
+        String reason = (statusUpdateDto != null) ? statusUpdateDto.getReason() : null;
+        userService.blockUser(id, reason);
         return ResponseEntity.ok(new ApiResponse<>(true, "User blocked successfully", null));
     }
 
-    @PutMapping("/users/{id}/unblock")
+    @PatchMapping("/users/{id}/unblock")
     public ResponseEntity<ApiResponse<String>> unblockUser(@RequestHeader(value = "Authorization", required = false) String authHeader,
-                                                           @PathVariable Long id) {
+                                                           @PathVariable Long id,
+                                                           @RequestBody(required = false) UserStatusUpdateDto statusUpdateDto) {
         authenticateAndGetEmail(authHeader); // Validate admin
-        userService.unblockUser(id);
+        String reason = (statusUpdateDto != null) ? statusUpdateDto.getReason() : null;
+        userService.unblockUser(id, reason);
         return ResponseEntity.ok(new ApiResponse<>(true, "User unblocked successfully", null));
+    }
+
+    @GetMapping("/queries")
+    public ResponseEntity<ApiResponse<List<UserQuery>>> getAllQueries(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            @RequestParam(required = false) QueryStatus status) {
+        authenticateAndGetEmail(authHeader); // Validate admin
+        
+        List<UserQuery> queries = (status != null) 
+                ? userQueryService.getQueriesByStatus(status) 
+                : userQueryService.getAllQueries();
+                
+        return ResponseEntity.ok(new ApiResponse<>(true, "Queries retrieved successfully", queries));
+    }
+
+    @PatchMapping("/queries/{queryId}/reply")
+    public ResponseEntity<ApiResponse<UserQuery>> replyToQuery(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            @PathVariable Long queryId,
+            @RequestBody AdminQueryReplyDto replyDto) {
+        authenticateAndGetEmail(authHeader); // Validate admin
+        
+        UserQuery updatedQuery = userQueryService.adminReplyToQuery(queryId, replyDto);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Query replied successfully", updatedQuery));
     }
 
     private UserProfileDto mapToDto(User user) {

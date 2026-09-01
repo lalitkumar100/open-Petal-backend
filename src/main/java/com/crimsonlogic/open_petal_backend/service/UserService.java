@@ -12,8 +12,8 @@ public interface UserService {
     List<User> getAllUsers();
     User updateUser(Long id, User user);
     void deleteUser(Long id);
-    void blockUser(Long id);
-    void unblockUser(Long id);
+    void blockUser(Long id, String reason);
+    void unblockUser(Long id, String reason);
 
     List<AvailabilitySlot> addAvailabilitySlot(Long userId, AvailabilitySlot newSlot);
     List<AvailabilitySlot> getUserAvailabilitySlots(Long userId);

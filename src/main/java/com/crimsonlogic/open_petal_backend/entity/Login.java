@@ -63,6 +63,9 @@ public class Login {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(name = "reason", length = 255)
+    private String reason;
+
     // Bi-directional 1:1 mapping back to User Profile
     @OneToOne(mappedBy = "login", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;

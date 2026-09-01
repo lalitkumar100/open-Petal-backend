@@ -53,4 +53,8 @@ public class LearningGoal {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.JSON)
+    @Column(name = "roadplan", columnDefinition = "json")
+    private java.util.Map<String, Object> roadplan;
 }

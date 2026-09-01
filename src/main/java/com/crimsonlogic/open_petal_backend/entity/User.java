@@ -81,9 +81,10 @@ public class User {
     @Builder.Default
     private List<LearningGoal> learningGoals = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.JSON)
+    @Column(name = "availability_slots", columnDefinition = "json")
     @Builder.Default
-    private List<UserAvailability> AvailableTimeInWeek = new ArrayList<>();
+    private List<com.crimsonlogic.open_petal_backend.dto.user.AvailabilitySlot> availableTimeInWeek = new ArrayList<>();
 
 
     @AssertTrue(message = "You must be at least 18 years old")

@@ -20,16 +20,32 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.crimsonlogic.open_petal_backend.dto.query.UserQueryRequestDto;
+import com.crimsonlogic.open_petal_backend.entity.UserQuery;
+import com.crimsonlogic.open_petal_backend.service.UserQueryService;
+import com.crimsonlogic.open_petal_backend.entity.UserSkill;
+import com.crimsonlogic.open_petal_backend.entity.LearningGoal;
+import com.crimsonlogic.open_petal_backend.service.UserSkillService;
+import com.crimsonlogic.open_petal_backend.service.LearningGoalService;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
 
     private final AuthService authService;
     private final UserService userService;
+    private final UserQueryService userQueryService;
+    private final UserSkillService userSkillService;
+    private final LearningGoalService learningGoalService;
 
-    public UserController(AuthService authService, UserService userService) {
+    public UserController(AuthService authService, UserService userService, UserQueryService userQueryService,
+                          UserSkillService userSkillService, LearningGoalService learningGoalService) {
         this.authService = authService;
         this.userService = userService;
+        this.userQueryService = userQueryService;
+        this.userSkillService = userSkillService;
+        this.learningGoalService = learningGoalService;
     }
 
     @GetMapping("/profile")
@@ -111,6 +127,51 @@ public class UserController {
                 .build();
                 
         return ResponseEntity.ok(new ApiResponse<>(true, "Account status updated to " + login.getStatus(), responseDto));
+    }
+
+    @PostMapping("/queries")
+    public ResponseEntity<ApiResponse<UserQuery>> submitQuery(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            @Valid @RequestBody UserQueryRequestDto requestDto) {
+        String email = authenticateAndGetEmail(authHeader);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+        
+        UserQuery createdQuery = userQueryService.submitQuery(user.getId(), requestDto);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Query submitted successfully", createdQuery));
+    }
+
+    @GetMapping("/queries")
+    public ResponseEntity<ApiResponse<List<UserQuery>>> getAllMyQueries(
+            @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        String email = authenticateAndGetEmail(authHeader);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+        
+        List<UserQuery> queries = userQueryService.getQueriesByUser(user.getId());
+        return ResponseEntity.ok(new ApiResponse<>(true, "User queries retrieved successfully", queries));
+    }
+
+    @GetMapping("/skills")
+    public ResponseEntity<ApiResponse<List<UserSkill>>> getMyUserSkills(
+            @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        String email = authenticateAndGetEmail(authHeader);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+        
+        List<UserSkill> skills = userSkillService.getAllSkillsByUser(user.getId());
+        return ResponseEntity.ok(new ApiResponse<>(true, "User skills retrieved successfully", skills));
+    }
+
+    @GetMapping("/learning-goals")
+    public ResponseEntity<ApiResponse<List<LearningGoal>>> getMyLearningGoals(
+            @RequestHeader(value = "Authorization", required = false) String authHeader) {
+        String email = authenticateAndGetEmail(authHeader);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+        
+        List<LearningGoal> goals = learningGoalService.getLearningGoalsByUserId(user.getId());
+        return ResponseEntity.ok(new ApiResponse<>(true, "User learning goals retrieved successfully", goals));
     }
 
     private String authenticateAndGetEmail(String authHeader) {
