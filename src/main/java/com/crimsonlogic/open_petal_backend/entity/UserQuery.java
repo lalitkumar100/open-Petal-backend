@@ -1,7 +1,7 @@
 package com.crimsonlogic.open_petal_backend.entity;
 
-import com.crimsonlogic.open_petal_backend.enumerator.QueryStatus;
-import com.crimsonlogic.open_petal_backend.enumerator.QueryType;
+import com.crimsonlogic.open_petal_backend.enums.QueryStatus;
+import com.crimsonlogic.open_petal_backend.enums.QueryType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -51,4 +51,8 @@ public class UserQuery {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @Column(name = "is_deleted", nullable = false)
+    @Builder.Default
+    private Boolean isDeleted = false;
 }

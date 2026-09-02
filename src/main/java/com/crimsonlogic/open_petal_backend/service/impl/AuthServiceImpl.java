@@ -13,9 +13,9 @@ import com.crimsonlogic.open_petal_backend.dto.auth.LoginResponseDto;
 import com.crimsonlogic.open_petal_backend.dto.user.ChangePasswordRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.auth.ForgotPasswordRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.auth.ResetPasswordRequestDto;
-import com.crimsonlogic.open_petal_backend.enumerator.AccountStatus;
+import com.crimsonlogic.open_petal_backend.enums.AccountStatus;
 import com.crimsonlogic.open_petal_backend.util.JwtUtil;
-import com.crimsonlogic.open_petal_backend.service.EmailService;
+
 import java.time.LocalDateTime;
 import com.crimsonlogic.open_petal_backend.exception.CustomException;
 import com.crimsonlogic.open_petal_backend.exception.AuthenticationException;

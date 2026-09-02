@@ -1,6 +1,6 @@
 package com.crimsonlogic.open_petal_backend.service.impl;
 
-import com.crimsonlogic.open_petal_backend.dto.SkillDTO;
+import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
 import com.crimsonlogic.open_petal_backend.entity.Skill;
 import com.crimsonlogic.open_petal_backend.entity.SkillCategory;
 import com.crimsonlogic.open_petal_backend.repository.SkillCategoryRepository;
@@ -23,7 +23,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     @Transactional
-    public SkillDTO createSkill(SkillDTO skillDTO) {
+    public ApiResponse.SkillDTO createSkill(ApiResponse.SkillDTO skillDTO) {
         SkillCategory category = categoryRepository.findById(skillDTO.getCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + skillDTO.getCategoryId()));
 
@@ -40,7 +40,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     @Transactional
-    public SkillDTO updateSkill(Long id, SkillDTO skillDTO) {
+    public ApiResponse.SkillDTO updateSkill(Long id, ApiResponse.SkillDTO skillDTO) {
         Skill skill = skillRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Skill not found with id: " + id));
 
@@ -62,7 +62,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     @Transactional(readOnly = true)
-    public SkillDTO getSkillById(Long id) {
+    public ApiResponse.SkillDTO getSkillById(Long id) {
         Skill skill = skillRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Skill not found with id: " + id));
         return mapToDTO(skill);
@@ -70,7 +70,7 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<SkillDTO> getAllSkills() {
+    public List<ApiResponse.SkillDTO> getAllSkills() {
         return skillRepository.findAll().stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
@@ -85,8 +85,8 @@ public class SkillServiceImpl implements SkillService {
         skillRepository.deleteById(id);
     }
 
-    private SkillDTO mapToDTO(Skill skill) {
-        return SkillDTO.builder()
+    private ApiResponse.SkillDTO mapToDTO(Skill skill) {
+        return ApiResponse.SkillDTO.builder()
                 .id(skill.getId())
                 .categoryId(skill.getCategory() != null ? skill.getCategory().getId() : null)
                 .categoryName(skill.getCategory() != null ? skill.getCategory().getName() : null)

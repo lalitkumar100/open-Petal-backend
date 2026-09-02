@@ -1,4 +1,4 @@
-package com.crimsonlogic.open_petal_backend.enumerator;
+package com.crimsonlogic.open_petal_backend.enums;
 
 public enum SkillLevel {
     BEGINNER,

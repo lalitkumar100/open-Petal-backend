@@ -1,7 +1,7 @@
 package com.crimsonlogic.open_petal_backend.repository;
 
 import com.crimsonlogic.open_petal_backend.entity.UserQuery;
-import com.crimsonlogic.open_petal_backend.enumerator.QueryStatus;
+import com.crimsonlogic.open_petal_backend.enums.QueryStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

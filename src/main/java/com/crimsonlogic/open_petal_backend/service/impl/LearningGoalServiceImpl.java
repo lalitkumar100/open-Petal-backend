@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.crimsonlogic.open_petal_backend.entity.Skill;
 import com.crimsonlogic.open_petal_backend.entity.User;
-import com.crimsonlogic.open_petal_backend.enumerator.SkillLevel;
+import com.crimsonlogic.open_petal_backend.enums.SkillLevel;
 import com.crimsonlogic.open_petal_backend.repository.SkillRepository;
 import com.crimsonlogic.open_petal_backend.repository.UserRepository;
 

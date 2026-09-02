@@ -1,7 +1,7 @@
 package com.crimsonlogic.open_petal_backend.entity;
 
 
-import com.crimsonlogic.open_petal_backend.enumerator.SkillLevel;
+import com.crimsonlogic.open_petal_backend.enums.SkillLevel;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -57,4 +57,8 @@ public class LearningGoal {
     @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.JSON)
     @Column(name = "roadplan", columnDefinition = "json")
     private java.util.Map<String, Object> roadplan;
+
+    @Column(name = "is_deleted", nullable = false)
+    @Builder.Default
+    private Boolean isDeleted = false;
 }

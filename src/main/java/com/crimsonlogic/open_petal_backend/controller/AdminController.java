@@ -11,7 +11,7 @@ import com.crimsonlogic.open_petal_backend.service.AuthService;
 import com.crimsonlogic.open_petal_backend.service.UserService;
 import com.crimsonlogic.open_petal_backend.dto.query.AdminQueryReplyDto;
 import com.crimsonlogic.open_petal_backend.entity.UserQuery;
-import com.crimsonlogic.open_petal_backend.enumerator.QueryStatus;
+import com.crimsonlogic.open_petal_backend.enums.QueryStatus;
 import com.crimsonlogic.open_petal_backend.service.UserQueryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

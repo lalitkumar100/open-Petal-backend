@@ -3,12 +3,11 @@ package com.crimsonlogic.open_petal_backend.service.impl;
 import com.crimsonlogic.open_petal_backend.dto.user.AvailabilitySlot;
 import com.crimsonlogic.open_petal_backend.entity.User;
 import com.crimsonlogic.open_petal_backend.entity.Login;
-import com.crimsonlogic.open_petal_backend.enumerator.AccountStatus;
+import com.crimsonlogic.open_petal_backend.enums.AccountStatus;
 import com.crimsonlogic.open_petal_backend.repository.UserRepository;
 import com.crimsonlogic.open_petal_backend.repository.LoginRepository;
 import com.crimsonlogic.open_petal_backend.service.UserService;
 import com.crimsonlogic.open_petal_backend.exception.RecordNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

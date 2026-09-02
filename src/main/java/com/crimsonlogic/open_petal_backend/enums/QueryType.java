@@ -1,4 +1,4 @@
-package com.crimsonlogic.open_petal_backend.enumerator;
+package com.crimsonlogic.open_petal_backend.enums;
 
 public enum QueryType {
     ADD_NEW_SKILL,        // Request admin to add a new skill to the master catalog

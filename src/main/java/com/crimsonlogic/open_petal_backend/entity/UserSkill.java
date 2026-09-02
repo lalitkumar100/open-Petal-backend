@@ -1,8 +1,8 @@
 package com.crimsonlogic.open_petal_backend.entity;
 
 
-import com.crimsonlogic.open_petal_backend.enumerator.SkillLevel;
-import com.crimsonlogic.open_petal_backend.enumerator.TeachingMode;
+import com.crimsonlogic.open_petal_backend.enums.SkillLevel;
+import com.crimsonlogic.open_petal_backend.enums.TeachingMode;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -83,4 +83,15 @@ public class UserSkill {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
+
+    @Column(name = "is_deleted", nullable = false)
+    @Builder.Default
+    private Boolean isDeleted = false;
+
+    void JWTAuthenicationFilter(){
+
+
+    }
+
+
 }

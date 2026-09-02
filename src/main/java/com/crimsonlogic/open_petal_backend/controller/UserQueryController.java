@@ -22,8 +22,8 @@ public class UserQueryController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<UserQuery>> submitQuery(
-            @Valid @RequestBody UserQueryRequestDto requestDto) {
-        UserQuery createdQuery = userQueryService.submitQuery(requestDto.getUserId(), requestDto);
+            @Valid @RequestBody UserQueryRequestDto requestDto, Long userId) {
+        UserQuery createdQuery = userQueryService.submitQuery(userId, requestDto);
         return ResponseEntity.ok(new ApiResponse<>(true, "Query submitted successfully", createdQuery));
     }
 

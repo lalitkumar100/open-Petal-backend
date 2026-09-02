@@ -3,6 +3,7 @@ package com.crimsonlogic.open_petal_backend.service;
 import com.crimsonlogic.open_petal_backend.dto.skill.CreateUserSkillDto;
 import com.crimsonlogic.open_petal_backend.dto.skill.UpdateUserSkillDto;
 import com.crimsonlogic.open_petal_backend.entity.UserSkill;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.crimsonlogic.open_petal_backend.dto;
 
-import com.crimsonlogic.open_petal_backend.enumerator.SkillLevel;
+import com.crimsonlogic.open_petal_backend.enums.SkillLevel;
 import lombok.Data;
 import jakarta.validation.constraints.NotNull;
 

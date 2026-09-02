@@ -4,7 +4,7 @@ import com.crimsonlogic.open_petal_backend.dto.query.AdminQueryReplyDto;
 import com.crimsonlogic.open_petal_backend.dto.query.UserQueryRequestDto;
 import com.crimsonlogic.open_petal_backend.entity.User;
 import com.crimsonlogic.open_petal_backend.entity.UserQuery;
-import com.crimsonlogic.open_petal_backend.enumerator.QueryStatus;
+import com.crimsonlogic.open_petal_backend.enums.QueryStatus;
 import com.crimsonlogic.open_petal_backend.exception.RecordNotFoundException;
 import com.crimsonlogic.open_petal_backend.repository.UserQueryRepository;
 import com.crimsonlogic.open_petal_backend.repository.UserRepository;

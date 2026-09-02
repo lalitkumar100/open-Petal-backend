@@ -1,6 +1,6 @@
 package com.crimsonlogic.open_petal_backend.dto.user;
 
-import com.crimsonlogic.open_petal_backend.enumerator.Gender;
+import com.crimsonlogic.open_petal_backend.enums.Gender;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

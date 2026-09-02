@@ -1,6 +1,6 @@
 package com.crimsonlogic.open_petal_backend.dto.query;
 
-import com.crimsonlogic.open_petal_backend.enumerator.QueryType;
+import com.crimsonlogic.open_petal_backend.enums.QueryType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

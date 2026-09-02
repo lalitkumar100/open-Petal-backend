@@ -49,6 +49,10 @@ public class Skill {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Column(name = "is_deleted", nullable = false)
+    @Builder.Default
+    private Boolean isDeleted = false;
+
     // --- AUTOMATIC SLUG GENERATION HOOKS ---
     @PrePersist
     @PreUpdate

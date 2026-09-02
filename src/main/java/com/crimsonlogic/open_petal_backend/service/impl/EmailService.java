@@ -1,4 +1,4 @@
-package com.crimsonlogic.open_petal_backend.service;
+package com.crimsonlogic.open_petal_backend.service.impl;
 
 import com.crimsonlogic.open_petal_backend.dto.skill.CreateUserSkillDto;
 import com.crimsonlogic.open_petal_backend.dto.skill.UpdateUserSkillDto;

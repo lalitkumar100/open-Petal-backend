@@ -8,7 +8,7 @@ import com.crimsonlogic.open_petal_backend.dto.user.ChangePasswordRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.auth.ForgotPasswordRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.auth.ResetPasswordRequestDto;
 import com.crimsonlogic.open_petal_backend.entity.Login;
-import com.crimsonlogic.open_petal_backend.enumerator.AccountStatus;
+import com.crimsonlogic.open_petal_backend.enums.AccountStatus;
 
 public interface AuthService {
     RegisterResponseDto register(RegisterRequestDto request);

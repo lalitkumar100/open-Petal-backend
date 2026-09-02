@@ -5,12 +5,11 @@ import com.crimsonlogic.open_petal_backend.dto.skill.UpdateUserSkillDto;
 import com.crimsonlogic.open_petal_backend.entity.Skill;
 import com.crimsonlogic.open_petal_backend.entity.User;
 import com.crimsonlogic.open_petal_backend.entity.UserSkill;
-import com.crimsonlogic.open_petal_backend.enumerator.TeachingMode;
+import com.crimsonlogic.open_petal_backend.enums.TeachingMode;
 import com.crimsonlogic.open_petal_backend.exception.RecordNotFoundException;
 import com.crimsonlogic.open_petal_backend.repository.SkillRepository;
 import com.crimsonlogic.open_petal_backend.repository.UserRepository;
 import com.crimsonlogic.open_petal_backend.repository.UserSkillRepository;
-import com.crimsonlogic.open_petal_backend.service.EmailService;
 import com.crimsonlogic.open_petal_backend.service.UserSkillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserSkillServiceImpl implements EmailService.UserSkillService {
+public class UserSkillServiceImpl implements UserSkillService {
 
     private final UserSkillRepository userSkillRepository;
     private final UserRepository userRepository;

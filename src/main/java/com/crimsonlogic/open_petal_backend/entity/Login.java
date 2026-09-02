@@ -1,7 +1,7 @@
 package com.crimsonlogic.open_petal_backend.entity;
 
-import com.crimsonlogic.open_petal_backend.enumerator.AccountStatus;
-import com.crimsonlogic.open_petal_backend.enumerator.RoleType;
+import com.crimsonlogic.open_petal_backend.enums.AccountStatus;
+import com.crimsonlogic.open_petal_backend.enums.RoleType;
 import com.crimsonlogic.open_petal_backend.util.PasswordUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -69,6 +69,11 @@ public class Login {
     // Bi-directional 1:1 mapping back to User Profile
     @OneToOne(mappedBy = "login", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
+
+
+    @Column(name = "is_deleted", nullable = false)
+    @Builder.Default
+    private Boolean isDeleted = false;
 
     public void hashPassword(String plainPassword) {
         this.passwordHash = PasswordUtil.generateHash(plainPassword);

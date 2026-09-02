@@ -1,8 +1,8 @@
 package com.crimsonlogic.open_petal_backend.dto.skill;
 
 
-import com.crimsonlogic.open_petal_backend.enumerator.SkillLevel;
-import com.crimsonlogic.open_petal_backend.enumerator.TeachingMode;
+import com.crimsonlogic.open_petal_backend.enums.SkillLevel;
+import com.crimsonlogic.open_petal_backend.enums.TeachingMode;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

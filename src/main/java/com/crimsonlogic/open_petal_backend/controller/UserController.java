@@ -10,7 +10,7 @@ import com.crimsonlogic.open_petal_backend.dto.user.UpdateStatusRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.user.UpdateStatusResponseDto;
 import com.crimsonlogic.open_petal_backend.entity.User;
 import com.crimsonlogic.open_petal_backend.entity.Login;
-import com.crimsonlogic.open_petal_backend.enumerator.AccountStatus;
+import com.crimsonlogic.open_petal_backend.enums.AccountStatus;
 import com.crimsonlogic.open_petal_backend.exception.CustomException;
 import com.crimsonlogic.open_petal_backend.service.AuthService;
 import com.crimsonlogic.open_petal_backend.service.UserService;

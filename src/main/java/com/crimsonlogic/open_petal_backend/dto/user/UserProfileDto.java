@@ -1,8 +1,8 @@
 package com.crimsonlogic.open_petal_backend.dto.user;
 
-import com.crimsonlogic.open_petal_backend.enumerator.AccountStatus;
-import com.crimsonlogic.open_petal_backend.enumerator.Gender;
-import com.crimsonlogic.open_petal_backend.enumerator.RoleType;
+import com.crimsonlogic.open_petal_backend.enums.AccountStatus;
+import com.crimsonlogic.open_petal_backend.enums.Gender;
+import com.crimsonlogic.open_petal_backend.enums.RoleType;
 import lombok.Builder;
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package com.crimsonlogic.open_petal_backend.service;
 
 import com.crimsonlogic.open_petal_backend.entity.LearningGoal;
-import com.crimsonlogic.open_petal_backend.enumerator.SkillLevel;
+import com.crimsonlogic.open_petal_backend.enums.SkillLevel;
 import java.util.List;
 import java.util.Map;
 

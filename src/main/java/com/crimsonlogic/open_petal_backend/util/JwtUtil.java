@@ -1,6 +1,6 @@
 package com.crimsonlogic.open_petal_backend.util;
 
-import com.crimsonlogic.open_petal_backend.enumerator.RoleType;
+import com.crimsonlogic.open_petal_backend.enums.RoleType;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
