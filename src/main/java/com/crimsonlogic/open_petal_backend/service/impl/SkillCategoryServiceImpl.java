@@ -6,6 +6,10 @@ import com.crimsonlogic.open_petal_backend.exception.RecordNotFoundException;
 import com.crimsonlogic.open_petal_backend.repository.SkillCategoryRepository;
 import com.crimsonlogic.open_petal_backend.service.SkillCategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,6 +50,15 @@ public class SkillCategoryServiceImpl implements SkillCategoryService {
         existingCategory.setDescription(dto.getDescription() != null ? dto.getDescription().trim() : null);
 
         return skillCategoryRepository.save(existingCategory);
+    }
+
+    @Override
+    public Page<SkillCategory> getAllCategories(int page, int size, String searchQuery) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            return skillCategoryRepository.findByNameContainingIgnoreCase(searchQuery.trim(), pageable);
+        }
+        return skillCategoryRepository.findAll(pageable);
     }
 
     @Override

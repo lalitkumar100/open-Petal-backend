@@ -63,6 +63,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorDTO> handleDataIntegrityViolationException(org.springframework.dao.DataIntegrityViolationException ex) {
+        ErrorDTO errorDTO = ErrorDTO.builder()
+                .success(false)
+                .message("A database conflict occurred. The record you are trying to create or update already exists or violates a constraint.")
+                .status(HttpStatus.CONFLICT.value())
+                .stackTrace(getStackTrace(ex))
+                .build();
+        return new ResponseEntity<>(errorDTO, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorDTO> handleGlobalException(Exception ex) {
         ErrorDTO errorDTO = ErrorDTO.builder()

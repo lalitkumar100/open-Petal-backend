@@ -1,11 +1,19 @@
 package com.crimsonlogic.open_petal_backend.service.impl;
 
 import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
+import com.crimsonlogic.open_petal_backend.dto.admin.AddSkillRequestDto;
 import com.crimsonlogic.open_petal_backend.entity.Skill;
 import com.crimsonlogic.open_petal_backend.entity.SkillCategory;
 import com.crimsonlogic.open_petal_backend.repository.SkillCategoryRepository;
 import com.crimsonlogic.open_petal_backend.repository.SkillRepository;
+import com.crimsonlogic.open_petal_backend.repository.LearningGoalRepository;
+import com.crimsonlogic.open_petal_backend.repository.UserSkillRepository;
 import com.crimsonlogic.open_petal_backend.service.SkillService;
+import com.crimsonlogic.open_petal_backend.dto.skill.SkillDetailResponseDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +28,8 @@ public class SkillServiceImpl implements SkillService {
 
     private final SkillRepository skillRepository;
     private final SkillCategoryRepository categoryRepository;
+    private final LearningGoalRepository learningGoalRepository;
+    private final UserSkillRepository userSkillRepository;
 
     @Override
     @Transactional
@@ -32,6 +42,23 @@ public class SkillServiceImpl implements SkillService {
                 .name(skillDTO.getName())
                 .description(skillDTO.getDescription())
                 .isActive(skillDTO.getIsActive() != null ? skillDTO.getIsActive() : true)
+                .build();
+
+        Skill savedSkill = skillRepository.save(skill);
+        return mapToDTO(savedSkill);
+    }
+
+    @Override
+    @Transactional
+    public ApiResponse.SkillDTO addSkillToCategory(AddSkillRequestDto requestDto) {
+        SkillCategory category = categoryRepository.findById(requestDto.getCategoryId())
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + requestDto.getCategoryId()));
+
+        Skill skill = Skill.builder()
+                .category(category)
+                .name(requestDto.getName())
+                .description(requestDto.getDescription())
+                .isActive(true)
                 .build();
 
         Skill savedSkill = skillRepository.save(skill);
@@ -74,6 +101,40 @@ public class SkillServiceImpl implements SkillService {
         return skillRepository.findAll().stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
+    }
+    @Override
+    @Transactional(readOnly = true)
+    public Page<ApiResponse.SkillDTO> getSkillsByCategory(Long categoryId, int page, int size, String searchQuery) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+        Page<Skill> skillPage;
+        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            skillPage = skillRepository.findByCategoryIdAndNameContainingIgnoreCaseAndIsDeletedFalse(categoryId, searchQuery.trim(), pageable);
+        } else {
+            skillPage = skillRepository.findByCategoryIdAndIsDeletedFalse(categoryId, pageable);
+        }
+        return skillPage.map(this::mapToDTO);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public SkillDetailResponseDto getAdminSkillDetails(Long skillId) {
+        Skill skill = skillRepository.findById(skillId)
+                .orElseThrow(() -> new EntityNotFoundException("Skill not found with id: " + skillId));
+                
+        long learnersCount = learningGoalRepository.countBySkillIdAndIsDeletedFalseAndUserLoginIsDeletedFalse(skillId);
+        long teachersCount = userSkillRepository.countBySkillIdAndIsDeletedFalseAndUserLoginIsDeletedFalse(skillId);
+        
+        return SkillDetailResponseDto.builder()
+                .id(skill.getId())
+                .name(skill.getName())
+                .description(skill.getDescription())
+                .isActive(skill.getIsActive())
+                .categoryId(skill.getCategory() != null ? skill.getCategory().getId() : null)
+                .categoryName(skill.getCategory() != null ? skill.getCategory().getName() : null)
+                .createdAt(skill.getCreatedAt())
+                .learnersCount(learnersCount)
+                .teachersCount(teachersCount)
+                .build();
     }
 
     @Override

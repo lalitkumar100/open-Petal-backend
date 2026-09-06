@@ -15,6 +15,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
 import com.crimsonlogic.open_petal_backend.util.AvailabilitySlotManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import jakarta.persistence.criteria.Predicate;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -50,8 +56,39 @@ public class UserServiceImpl implements UserService {
 
 
 
+    @Override
+    public Page<User> getPaginatedUsers(int page, int size, String sortBy, String sortDir, String searchType, String searchQuery) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
 
+        Specification<User> spec = (root, query, cb) -> {
+            if (searchQuery == null || searchQuery.trim().isEmpty()) {
+                return null;
+            }
+            String likeQuery = "%" + searchQuery.toLowerCase() + "%";
+            
+            if ("name".equalsIgnoreCase(searchType)) {
+                return cb.or(
+                    cb.like(cb.lower(root.get("firstName")), likeQuery),
+                    cb.like(cb.lower(root.get("lastName")), likeQuery)
+                );
+            } else if ("userId".equalsIgnoreCase(searchType)) {
+                try {
+                    Long id = Long.parseLong(searchQuery);
+                    return cb.equal(root.get("id"), id);
+                } catch (NumberFormatException e) {
+                    return cb.like(root.get("id").as(String.class), likeQuery);
+                }
+            } else if ("email".equalsIgnoreCase(searchType)) {
+                return cb.like(cb.lower(root.get("email")), likeQuery);
+            } else if ("phone".equalsIgnoreCase(searchType)) {
+                return cb.like(root.get("phone"), likeQuery);
+            }
+            return null;
+        };
 
+        return userRepository.findAll(spec, pageable);
+    }
 
         @Override
         public User updateUser(Long id, User userDetails) {

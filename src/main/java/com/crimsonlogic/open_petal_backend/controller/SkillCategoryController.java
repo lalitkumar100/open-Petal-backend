@@ -1,7 +1,9 @@
 package com.crimsonlogic.open_petal_backend.controller;
 
 import com.crimsonlogic.open_petal_backend.dto.category.SkillCategoryRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
 import com.crimsonlogic.open_petal_backend.entity.SkillCategory;
+import org.springframework.data.domain.Page;
 import com.crimsonlogic.open_petal_backend.service.SkillCategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +28,14 @@ public class SkillCategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    // 2. Get all skill categories
+    // 2. Get all skill categories (Paginated)
     @GetMapping
-    public ResponseEntity<List<SkillCategory>> getAllCategories() {
-        return ResponseEntity.ok(skillCategoryService.getAllCategories());
+    public ResponseEntity<ApiResponse<Page<SkillCategory>>> getAllCategories(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "25") int size,
+            @RequestParam(required = false) String searchQuery) {
+        Page<SkillCategory> categories = skillCategoryService.getAllCategories(page, size, searchQuery);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Skill categories retrieved successfully", categories));
     }
 
     // 3. Get single category by ID

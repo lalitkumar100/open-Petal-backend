@@ -55,6 +55,21 @@ public class EmailService {
         }
     }
 
+    public void sendSessionConflictEmail(String to, String sessionContext) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(fromEmail);
+        message.setTo(to);
+        message.setSubject("Session Conflict Raised - Open Petal");
+        message.setText("A conflict has been raised for your session: " + sessionContext + "\n\nAn administrator will review this shortly. The escrow has been frozen.");
+        
+        try {
+            mailSender.send(message);
+        } catch (Exception e) {
+            System.err.println("Failed to send conflict email to " + to);
+            e.printStackTrace();
+        }
+    }
+
     public static interface UserSkillService {
 
         UserSkill addSkillToUser(Long userId, CreateUserSkillDto dto);

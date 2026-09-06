@@ -15,5 +15,6 @@ public class UpdateProfileResponseDto {
     private String lastName;
     private LocalDate dob;
     private Gender gender;
+    private String description;
     private LocalDateTime updatedAt;
 }

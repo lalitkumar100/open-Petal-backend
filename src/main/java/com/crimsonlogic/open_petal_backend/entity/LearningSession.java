@@ -91,6 +91,21 @@ public class LearningSession {
     @Column(name = "mentor_end_password", length = 20)
     private String mentorEndPassword;
 
+    @Column(name = "learner_verified_start", nullable = false)
+    @Builder.Default
+    private Boolean learnerVerifiedStart = false;
+
+    @Column(name = "mentor_verified_start", nullable = false)
+    @Builder.Default
+    private Boolean mentorVerifiedStart = false;
+
+    @Column(name = "learner_verified_end", nullable = false)
+    @Builder.Default
+    private Boolean learnerVerifiedEnd = false;
+
+    @Column(name = "mentor_verified_end", nullable = false)
+    @Builder.Default
+    private Boolean mentorVerifiedEnd = false;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

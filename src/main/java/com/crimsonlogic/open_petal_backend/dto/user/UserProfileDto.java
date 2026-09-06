@@ -17,8 +17,11 @@ public class UserProfileDto {
     private String email;
     private String firstName;
     private String lastName;
+    private String phone;
     private LocalDate dob;
     private Gender gender;
+    private String description;
+    private Integer credit;
     private AccountStatus status;
     private RoleType role;
     private LocalDateTime createdAt;

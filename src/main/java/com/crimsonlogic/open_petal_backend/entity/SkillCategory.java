@@ -43,6 +43,7 @@ public class SkillCategory {
     @Builder.Default
     private Boolean isDeleted = false;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Skill> skills = new ArrayList<>();

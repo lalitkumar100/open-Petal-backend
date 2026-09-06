@@ -2,6 +2,8 @@ package com.crimsonlogic.open_petal_backend.dto.user;
 
 import com.crimsonlogic.open_petal_backend.exception.InvalidateSlotException;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,10 +24,14 @@ public class AvailabilitySlot implements Serializable {
 
     @NotNull(message = "Start time is required")
     @JsonFormat(pattern = "HH:mm")
+    @JsonSerialize(using = CustomLocalTimeSerializer.class)
+    @JsonDeserialize(using = CustomLocalTimeDeserializer.class)
     private LocalTime startTime;
 
     @NotNull(message = "End time is required")
     @JsonFormat(pattern = "HH:mm")
+    @JsonSerialize(using = CustomLocalTimeSerializer.class)
+    @JsonDeserialize(using = CustomLocalTimeDeserializer.class)
     private LocalTime endTime;
 
     /**
@@ -100,6 +106,26 @@ public class AvailabilitySlot implements Serializable {
 
         public AvailabilitySlot build() {
             return new AvailabilitySlot(this.dayOfWeek, this.startTime, this.endTime);
+        }
+    }
+
+    public static class CustomLocalTimeSerializer extends com.fasterxml.jackson.databind.JsonSerializer<LocalTime> {
+        @Override
+        public void serialize(LocalTime value, com.fasterxml.jackson.core.JsonGenerator gen, com.fasterxml.jackson.databind.SerializerProvider serializers) throws java.io.IOException {
+            if (value != null) {
+                gen.writeString(value.toString());
+            }
+        }
+    }
+
+    public static class CustomLocalTimeDeserializer extends com.fasterxml.jackson.databind.JsonDeserializer<LocalTime> {
+        @Override
+        public LocalTime deserialize(com.fasterxml.jackson.core.JsonParser p, com.fasterxml.jackson.databind.DeserializationContext ctxt) throws java.io.IOException {
+            String val = p.getValueAsString();
+            if (val != null && !val.trim().isEmpty()) {
+                return LocalTime.parse(val.trim());
+            }
+            return null;
         }
     }
 }

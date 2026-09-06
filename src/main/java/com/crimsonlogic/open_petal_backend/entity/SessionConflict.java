@@ -40,6 +40,10 @@ public class SessionConflict {
     private String mentorStory;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "reason", nullable = false, length = 20)
+    private com.crimsonlogic.open_petal_backend.enums.ConflictReason reason;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
     @Builder.Default
     private ConflictStatus status = ConflictStatus.OPEN;
@@ -47,6 +51,13 @@ public class SessionConflict {
     // Notes written by the admin after investigating and resolving the issue
     @Column(name = "admin_resolution_notes", columnDefinition = "TEXT")
     private String adminResolutionNotes;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "resolved_by_admin_id")
+    private User resolvedBy;
+
+    @Column(name = "resolved_at")
+    private LocalDateTime resolvedAt;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

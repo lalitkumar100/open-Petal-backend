@@ -39,6 +39,22 @@ public class LearningGoalServiceImpl implements LearningGoalService {
         Skill skill = skillRepository.findById(skillId)
                 .orElseThrow(() -> new RecordNotFoundException("Skill not found with id " + skillId));
 
+        java.util.Optional<LearningGoal> existingGoalOpt = learningGoalRepository.findByUserIdAndSkillId(userId, skillId);
+        if (existingGoalOpt.isPresent()) {
+            LearningGoal existingGoal = existingGoalOpt.get();
+            if (Boolean.FALSE.equals(existingGoal.getIsDeleted())) {
+                throw new com.crimsonlogic.open_petal_backend.exception.CustomException(
+                        "You already have an active learning goal for this skill.", 
+                        org.springframework.http.HttpStatus.CONFLICT);
+            } else {
+                existingGoal.setIsDeleted(false);
+                existingGoal.setCurrentLevel(currentLevel);
+                existingGoal.setTargetLevel(targetLevel);
+                existingGoal.setRoadplan(null);
+                return learningGoalRepository.save(existingGoal);
+            }
+        }
+
         LearningGoal goal = LearningGoal.builder()
                 .user(user)
                 .skill(skill)

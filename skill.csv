@@ -1,0 +1,52 @@
+id,created_at,description,is_active,is_deleted,name,slug,updated_at,category_id
+1,"2026-09-04 14:26:59.870267","Playing like pro in Gaming ",1,0,Gaming,gaming,"2026-09-04 14:26:59.870267",11
+2,"2026-09-04 14:31:46.361223","Java skill for Software Development",1,0,Java,java,"2026-09-04 14:31:46.361223",2
+3,"2026-09-04 14:31:46.388568","Python skill for Software Development",1,0,Python,python,"2026-09-04 14:31:46.388930",2
+4,"2026-09-04 14:31:46.397568","JavaScript skill for Software Development",1,0,JavaScript,javascript,"2026-09-04 14:31:46.397568",2
+5,"2026-09-04 14:31:46.405791","React skill for Software Development",1,0,React,react,"2026-09-04 14:31:46.405791",2
+6,"2026-09-04 14:31:46.414487","Angular skill for Software Development",1,0,Angular,angular,"2026-09-04 14:31:46.414487",2
+7,"2026-09-04 14:31:46.420550","Photoshop skill for Design & Creative",1,0,Photoshop,photoshop,"2026-09-04 14:31:46.422100",3
+8,"2026-09-04 14:31:46.430197","Illustrator skill for Design & Creative",1,0,Illustrator,illustrator,"2026-09-04 14:31:46.430197",3
+9,"2026-09-04 14:31:46.436901","Figma skill for Design & Creative",1,0,Figma,figma,"2026-09-04 14:31:46.436901",3
+10,"2026-09-04 14:31:46.444443","Premiere Pro skill for Design & Creative",1,0,"Premiere Pro",premiere-pro,"2026-09-04 14:31:46.444443",3
+11,"2026-09-04 14:31:46.454472","After Effects skill for Design & Creative",1,0,"After Effects",after-effects,"2026-09-04 14:31:46.454472",3
+12,"2026-09-04 14:31:46.464612","Machine Learning skill for Data Science & Analytics",1,0,"Machine Learning",machine-learning,"2026-09-04 14:31:46.464612",4
+13,"2026-09-04 14:31:46.472530","Data Analysis skill for Data Science & Analytics",1,0,"Data Analysis",data-analysis,"2026-09-04 14:31:46.472530",4
+14,"2026-09-04 14:31:46.480868","SQL skill for Data Science & Analytics",1,0,SQL,sql,"2026-09-04 14:31:46.480868",4
+15,"2026-09-04 14:31:46.487319","Pandas skill for Data Science & Analytics",1,0,Pandas,pandas,"2026-09-04 14:31:46.487319",4
+16,"2026-09-04 14:31:46.496131","TensorFlow skill for Data Science & Analytics",1,0,TensorFlow,tensorflow,"2026-09-04 14:31:46.496131",4
+17,"2026-09-04 14:31:46.502839","SEO skill for Digital Marketing",1,0,SEO,seo,"2026-09-04 14:31:46.502839",5
+18,"2026-09-04 14:31:46.510240","SEM skill for Digital Marketing",1,0,SEM,sem,"2026-09-04 14:31:46.510240",5
+19,"2026-09-04 14:31:46.516981","Content Marketing skill for Digital Marketing",1,0,"Content Marketing",content-marketing,"2026-09-04 14:31:46.516981",5
+20,"2026-09-04 14:31:46.526051","Social Media skill for Digital Marketing",1,0,"Social Media",social-media,"2026-09-04 14:31:46.526051",5
+21,"2026-09-04 14:31:46.533420","Email Marketing skill for Digital Marketing",1,0,"Email Marketing",email-marketing,"2026-09-04 14:31:46.533420",5
+22,"2026-09-04 14:31:46.542053","Project Management skill for Business & Management",1,0,"Project Management",project-management,"2026-09-04 14:31:46.542053",6
+23,"2026-09-04 14:31:46.549823","Agile skill for Business & Management",1,0,Agile,agile,"2026-09-04 14:31:46.549823",6
+24,"2026-09-04 14:31:46.556898","Scrum skill for Business & Management",1,0,Scrum,scrum,"2026-09-04 14:31:46.556898",6
+25,"2026-09-04 14:31:46.564687","Leadership skill for Business & Management",1,0,Leadership,leadership,"2026-09-04 14:31:46.564687",6
+26,"2026-09-04 14:31:46.571262","Public Speaking skill for Business & Management",1,0,"Public Speaking",public-speaking,"2026-09-04 14:31:46.571262",6
+27,"2026-09-04 14:31:46.578793","English skill for Languages",1,0,English,english,"2026-09-04 14:31:46.578793",7
+28,"2026-09-04 14:31:46.586465","Spanish skill for Languages",1,0,Spanish,spanish,"2026-09-04 14:31:46.586465",7
+29,"2026-09-04 14:31:46.594165","French skill for Languages",1,0,French,french,"2026-09-04 14:31:46.594165",7
+30,"2026-09-04 14:31:46.600366","Mandarin skill for Languages",1,0,Mandarin,mandarin,"2026-09-04 14:31:46.600366",7
+31,"2026-09-04 14:31:46.608408","German skill for Languages",1,0,German,german,"2026-09-04 14:31:46.608408",7
+32,"2026-09-04 14:31:46.614449","Piano skill for Music & Audio",1,0,Piano,piano,"2026-09-04 14:31:46.614449",8
+33,"2026-09-04 14:31:46.620506","Guitar skill for Music & Audio",1,0,Guitar,guitar,"2026-09-04 14:31:46.620506",8
+34,"2026-09-04 14:31:46.630091","Vocals skill for Music & Audio",1,0,Vocals,vocals,"2026-09-04 14:31:46.630091",8
+35,"2026-09-04 14:31:46.635788","Music Production skill for Music & Audio",1,0,"Music Production",music-production,"2026-09-04 14:31:46.635788",8
+36,"2026-09-04 14:31:46.642977","Ableton skill for Music & Audio",1,0,Ableton,ableton,"2026-09-04 14:31:46.642977",8
+37,"2026-09-04 14:31:46.651784","Yoga skill for Health & Fitness",1,0,Yoga,yoga,"2026-09-04 14:31:46.651784",9
+38,"2026-09-04 14:31:46.659861","Personal Training skill for Health & Fitness",1,0,"Personal Training",personal-training,"2026-09-04 14:31:46.659861",9
+39,"2026-09-04 14:31:46.666406","Nutrition skill for Health & Fitness",1,0,Nutrition,nutrition,"2026-09-04 14:31:46.666406",9
+40,"2026-09-04 14:31:46.673510","Pilates skill for Health & Fitness",1,0,Pilates,pilates,"2026-09-04 14:31:46.673510",9
+41,"2026-09-04 14:31:46.681219","CrossFit skill for Health & Fitness",1,0,CrossFit,crossfit,"2026-09-04 14:31:46.681219",9
+42,"2026-09-04 14:31:46.686976","Mathematics skill for Academics",1,0,Mathematics,mathematics,"2026-09-04 14:31:46.686976",10
+43,"2026-09-04 14:31:46.694901","Physics skill for Academics",1,0,Physics,physics,"2026-09-04 14:31:46.694901",10
+44,"2026-09-04 14:31:46.700084","Chemistry skill for Academics",1,0,Chemistry,chemistry,"2026-09-04 14:31:46.700084",10
+45,"2026-09-04 14:31:46.708960","Biology skill for Academics",1,0,Biology,biology,"2026-09-04 14:31:46.708960",10
+46,"2026-09-04 14:31:46.716195","History skill for Academics",1,0,History,history,"2026-09-04 14:31:46.716195",10
+47,"2026-09-04 14:31:46.723272","Cooking skill for Lifestyle & Hobbies",1,0,Cooking,cooking,"2026-09-04 14:31:46.723272",11
+48,"2026-09-04 14:31:46.730439","Photography skill for Lifestyle & Hobbies",1,0,Photography,photography,"2026-09-04 14:31:46.730439",11
+49,"2026-09-04 14:31:46.738237","Gardening skill for Lifestyle & Hobbies",1,0,Gardening,gardening,"2026-09-04 14:31:46.738237",11
+50,"2026-09-04 14:31:46.812716","Baking skill for Lifestyle & Hobbies",1,0,Baking,baking,"2026-09-04 14:31:46.812716",11
+51,"2026-09-04 14:31:46.843642","Knitting skill for Lifestyle & Hobbies",1,0,Knitting,knitting,"2026-09-04 14:31:46.843642",11
