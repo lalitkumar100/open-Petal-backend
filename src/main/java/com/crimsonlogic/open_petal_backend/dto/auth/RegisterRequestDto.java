@@ -4,6 +4,9 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import java.time.LocalDate;
 
+/**
+ * Data Transfer Object representing a register request dto.
+ */
 @Data
 public class RegisterRequestDto {
     @NotBlank(message = "Email is mandatory")

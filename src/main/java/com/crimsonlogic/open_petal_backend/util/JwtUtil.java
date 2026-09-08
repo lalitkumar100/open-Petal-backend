@@ -12,6 +12,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
+/**
+ * Utility class for jwt.
+ */
 @Component
 public class JwtUtil {
 

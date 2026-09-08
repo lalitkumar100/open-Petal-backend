@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data Transfer Object representing a skill badge dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

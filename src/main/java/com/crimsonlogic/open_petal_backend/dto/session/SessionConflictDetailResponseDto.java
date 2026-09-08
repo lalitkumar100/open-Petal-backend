@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Data Transfer Object representing a session conflict detail response dto.
+ */
 @Data
 @Builder
 @NoArgsConstructor

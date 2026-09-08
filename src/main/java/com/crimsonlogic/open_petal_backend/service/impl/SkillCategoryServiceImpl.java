@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * Implementation of the skill category service.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional

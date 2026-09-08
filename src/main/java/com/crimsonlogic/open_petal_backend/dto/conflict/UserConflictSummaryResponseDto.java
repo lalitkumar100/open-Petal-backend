@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Data Transfer Object representing a user conflict summary response dto.
+ */
 @Data
 @Builder
 @NoArgsConstructor

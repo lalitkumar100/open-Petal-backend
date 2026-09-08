@@ -19,6 +19,9 @@ import java.time.LocalDateTime;
         @Index(name = "idx_login_email", columnList = "email")
     }
 )
+/**
+ * Entity class representing a login.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -67,6 +70,7 @@ public class Login {
     private String reason;
 
     // Bi-directional 1:1 mapping back to User Profile
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"login"})
     @OneToOne(mappedBy = "login", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
 

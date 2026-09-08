@@ -12,6 +12,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Data Transfer Object representing a admin session detail response dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

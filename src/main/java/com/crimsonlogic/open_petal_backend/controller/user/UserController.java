@@ -1,8 +1,8 @@
-package com.crimsonlogic.open_petal_backend.controller;
+package com.crimsonlogic.open_petal_backend.controller.user;
 
 import com.crimsonlogic.open_petal_backend.exception.AuthenticationException;
 import com.crimsonlogic.open_petal_backend.exception.AuthorizationException;
-import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
+import com.crimsonlogic.open_petal_backend.dto.common.ApiResponse;
 import com.crimsonlogic.open_petal_backend.dto.user.UserProfileDto;
 import com.crimsonlogic.open_petal_backend.dto.user.UpdateProfileRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.user.UpdateProfileResponseDto;
@@ -35,6 +35,10 @@ import com.crimsonlogic.open_petal_backend.dto.skill.LearningGoalResponseDto;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * REST Controller for managing user profiles, skills, and goals.
+ * Provides endpoints for users to update their profile, availability, and learning preferences.
+ */
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
@@ -54,6 +58,12 @@ public class UserController {
         this.learningGoalService = learningGoalService;
     }
 
+    /**
+     * Retrieves the profile of the authenticated user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @return ResponseEntity containing UserProfileDto wrapped in an ApiResponse
+     */
     @GetMapping("/profile")
     public ResponseEntity<ApiResponse<UserProfileDto>> getUserProfile(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         String email = authenticateAndGetEmail(authHeader);
@@ -81,6 +91,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Profile retrieved successfully", profileDto));
     }
 
+    /**
+     * Changes the authenticated user's password.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param request the payload containing current and new passwords
+     * @return ResponseEntity indicating success
+     */
     @PutMapping("/change-password")
     public ResponseEntity<ApiResponse<String>> changePassword(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                                               @Valid @RequestBody ChangePasswordRequestDto request) {
@@ -89,6 +106,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Password changed successfully", null));
     }
 
+    /**
+     * Updates the authenticated user's profile information.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param request the payload containing updated profile details
+     * @return ResponseEntity containing UpdateProfileResponseDto wrapped in an ApiResponse
+     */
     @PutMapping("/profile")
     public ResponseEntity<ApiResponse<UpdateProfileResponseDto>> updateProfile(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                                                                @Valid @RequestBody UpdateProfileRequestDto request) {
@@ -120,6 +144,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Profile updated successfully", responseDto));
     }
 
+    /**
+     * Updates the authenticated user's account status (e.g., active, inactive).
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param request the payload containing the new status
+     * @return ResponseEntity containing UpdateStatusResponseDto wrapped in an ApiResponse
+     */
     @PatchMapping("/status")
     public ResponseEntity<ApiResponse<UpdateStatusResponseDto>> updateStatus(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                                                              @Valid @RequestBody UpdateStatusRequestDto request) {
@@ -140,6 +171,12 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Account status updated to " + login.getStatus(), responseDto));
     }
 
+    /**
+     * Retrieves the availability slots for the authenticated user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @return ResponseEntity containing a list of AvailabilitySlot wrapped in an ApiResponse
+     */
     @GetMapping("/availability")
     public ResponseEntity<ApiResponse<List<AvailabilitySlot>>> getUserAvailabilitySlots(
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
@@ -151,6 +188,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Availability slots retrieved successfully", slots));
     }
 
+    /**
+     * Adds a new availability slot for the authenticated user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param newSlot the payload containing slot details
+     * @return ResponseEntity containing the updated list of AvailabilitySlot wrapped in an ApiResponse
+     */
     @PostMapping("/availability")
     public ResponseEntity<ApiResponse<List<AvailabilitySlot>>> addAvailabilitySlot(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -163,6 +207,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Availability slot added successfully", updatedSlots));
     }
 
+    /**
+     * Removes an availability slot from the authenticated user's schedule.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param slotToRemove the payload containing the slot to remove
+     * @return ResponseEntity containing the updated list of AvailabilitySlot wrapped in an ApiResponse
+     */
     @DeleteMapping("/availability")
     public ResponseEntity<ApiResponse<List<AvailabilitySlot>>> removeAvailabilitySlot(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -175,6 +226,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Availability slot removed successfully", updatedSlots));
     }
 
+    /**
+     * Submits a support query for the authenticated user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param requestDto the payload containing the query text
+     * @return ResponseEntity containing the submitted UserQuery wrapped in an ApiResponse
+     */
     @PostMapping("/queries")
     public ResponseEntity<ApiResponse<UserQuery>> submitQuery(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -187,6 +245,12 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Query submitted successfully", createdQuery));
     }
 
+    /**
+     * Retrieves all support queries submitted by the authenticated user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @return ResponseEntity containing a list of UserQuery wrapped in an ApiResponse
+     */
     @GetMapping("/queries")
     public ResponseEntity<ApiResponse<List<UserQuery>>> getAllMyQueries(
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
@@ -198,6 +262,12 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "User queries retrieved successfully", queries));
     }
 
+    /**
+     * Retrieves all skills offered to teach by the authenticated user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @return ResponseEntity containing a list of UserSkillResponseDto wrapped in an ApiResponse
+     */
     @GetMapping("/skills")
     public ResponseEntity<ApiResponse<List<UserSkillResponseDto>>> getMyUserSkills(
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
@@ -210,6 +280,12 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "User skills retrieved successfully", skills));
     }
 
+    /**
+     * Retrieves all learning goals set by the authenticated user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @return ResponseEntity containing a list of LearningGoalResponseDto wrapped in an ApiResponse
+     */
     @GetMapping("/learning-goals")
     public ResponseEntity<ApiResponse<List<LearningGoalResponseDto>>> getMyLearningGoals(
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
@@ -222,6 +298,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "User learning goals retrieved successfully", goals));
     }
 
+    /**
+     * Adds a new skill that the user offers to teach.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param requestDto the payload containing teaching skill details
+     * @return ResponseEntity containing UserSkillResponseDto wrapped in an ApiResponse
+     */
     @PostMapping("/skills/teach")
     public ResponseEntity<ApiResponse<UserSkillResponseDto>> addTeachSkill(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -234,6 +317,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Teaching skill added successfully", mapToUserSkillDto(createdSkill)));
     }
 
+    /**
+     * Adds a new learning goal for the user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param requestDto the payload containing learning goal details
+     * @return ResponseEntity containing LearningGoalResponseDto wrapped in an ApiResponse
+     */
     @PostMapping("/skills/learn")
     public ResponseEntity<ApiResponse<LearningGoalResponseDto>> addLearningGoal(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -246,6 +336,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Learning goal added successfully", mapToLearningGoalDto(createdGoal)));
     }
 
+    /**
+     * Deletes a teaching skill offered by the user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param id the unique identifier of the user skill to delete
+     * @return ResponseEntity indicating success
+     */
     @DeleteMapping("/skills/teach/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteTeachSkill(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -258,6 +355,13 @@ public class UserController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Teaching skill deleted successfully", null));
     }
 
+    /**
+     * Deletes a learning goal set by the user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param id the unique identifier of the learning goal to delete
+     * @return ResponseEntity indicating success
+     */
     @DeleteMapping("/skills/learn/{id}")
     public ResponseEntity<ApiResponse<Void>> deleteLearningGoal(
             @RequestHeader(value = "Authorization", required = false) String authHeader,

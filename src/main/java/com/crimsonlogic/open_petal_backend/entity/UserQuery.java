@@ -9,6 +9,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity class representing a user query.
+ */
 @Entity
 @Table(name = "user_queries")
 @Getter

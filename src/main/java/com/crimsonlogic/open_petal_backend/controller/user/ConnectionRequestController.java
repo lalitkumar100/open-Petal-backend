@@ -1,6 +1,6 @@
-package com.crimsonlogic.open_petal_backend.controller;
+package com.crimsonlogic.open_petal_backend.controller.user;
 
-import com.crimsonlogic.open_petal_backend.dto.SendConnectionRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.connection.SendConnectionRequestDto;
 import com.crimsonlogic.open_petal_backend.entity.ConnectionRequest;
 import com.crimsonlogic.open_petal_backend.service.ConnectionRequestService;
 import com.crimsonlogic.open_petal_backend.service.AuthService;
@@ -17,6 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * REST Controller for managing connection requests.
+ * Allows users to send and accept connection requests for mentorship and learning.
+ */
 @RestController
 @RequestMapping("/api/v1/connections")
 @RequiredArgsConstructor
@@ -26,6 +30,13 @@ public class ConnectionRequestController {
     private final AuthService authService;
     private final UserService userService;
 
+    /**
+     * Sends a new connection request to another user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param requestDto the payload containing connection request details
+     * @return ResponseEntity containing a success message and request ID
+     */
     @PostMapping("/send")
     public ResponseEntity<?> sendConnectionRequest(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                                    @RequestBody SendConnectionRequestDto requestDto) {
@@ -50,6 +61,13 @@ public class ConnectionRequestController {
         }
     }
 
+    /**
+     * Accepts a pending connection request.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param requestId the unique identifier of the connection request to accept
+     * @return ResponseEntity containing a success message and request ID
+     */
     @PostMapping("/accept/{requestId}")
     public ResponseEntity<?> acceptConnectionRequest(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                                      @PathVariable Long requestId) {

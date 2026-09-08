@@ -11,6 +11,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data Transfer Object representing a create user skill dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

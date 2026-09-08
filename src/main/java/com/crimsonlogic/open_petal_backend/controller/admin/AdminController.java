@@ -1,6 +1,6 @@
-package com.crimsonlogic.open_petal_backend.controller;
+package com.crimsonlogic.open_petal_backend.controller.admin;
 
-import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
+import com.crimsonlogic.open_petal_backend.dto.common.ApiResponse;
 import com.crimsonlogic.open_petal_backend.dto.user.UserProfileDto;
 import com.crimsonlogic.open_petal_backend.dto.user.UserStatusUpdateDto;
 import com.crimsonlogic.open_petal_backend.entity.User;
@@ -32,6 +32,10 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * REST Controller for comprehensive administrative functions.
+ * Provides endpoints for managing users, skills, categories, and queries.
+ */
 @RestController
 @RequestMapping("/api/v1/admin")
 public class AdminController {
@@ -56,12 +60,30 @@ public class AdminController {
         this.skillService = skillService;
     }
 
+    /**
+     * Retrieves the admin dashboard welcome message.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @return ResponseEntity containing a welcome message
+     */
     @GetMapping("/dashboard")
     public ResponseEntity<String> getAdminDashboard(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         String email = authenticateAndGetEmail(authHeader);
         return ResponseEntity.ok("Welcome Admin! Your email is: " + email);
     }
 
+    /**
+     * Retrieves a paginated list of users.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param page the page number to retrieve
+     * @param size the number of records per page
+     * @param sortBy the field to sort by
+     * @param sortDir the direction of sorting
+     * @param searchType the type of search (e.g., name, email)
+     * @param searchQuery the search query string
+     * @return ResponseEntity containing a paginated list of UserProfileDto wrapped in an ApiResponse
+     */
     @GetMapping("/user")
     public ResponseEntity<ApiResponse<Page<UserProfileDto>>> getPaginatedUsers(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -78,6 +100,13 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Users retrieved successfully", users));
     }
 
+    /**
+     * Retrieves basic profile information for a specific user.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param id the unique identifier of the user
+     * @return ResponseEntity containing UserProfileDto wrapped in an ApiResponse
+     */
     @GetMapping("/users/{id}")
     public ResponseEntity<ApiResponse<UserProfileDto>> getUserById(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                                                    @PathVariable Long id) {
@@ -89,6 +118,13 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse<>(true, "User retrieved successfully", mapToDto(user)));
     }
 
+    /**
+     * Retrieves comprehensive details of a user, including skills and learning goals.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param id the unique identifier of the user
+     * @return ResponseEntity containing AdminUserDetailsDto wrapped in an ApiResponse
+     */
     @GetMapping("/users/{id}/details")
     public ResponseEntity<ApiResponse<AdminUserDetailsDto>> getUserDetailsByAdmin(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -117,6 +153,13 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse<>(true, "User details retrieved successfully", detailsDto));
     }
 
+    /**
+     * Creates a new skill category.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param dto the request payload for creating the category
+     * @return ResponseEntity containing the created SkillCategory wrapped in an ApiResponse
+     */
     @PostMapping("/skill-categories")
     public ResponseEntity<ApiResponse<SkillCategory>> createSkillCategory(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -127,6 +170,16 @@ public class AdminController {
                 .body(new ApiResponse<>(true, "Skill category created successfully", created));
     }
 
+    /**
+     * Retrieves all skills within a specific category.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param id the unique identifier of the skill category
+     * @param page the page number to retrieve
+     * @param size the number of records per page
+     * @param searchQuery optional search query to filter skills
+     * @return ResponseEntity containing a paginated list of SkillDTOs wrapped in an ApiResponse
+     */
     @GetMapping("/skill-categories/{id}/skills")
     public ResponseEntity<ApiResponse<Page<ApiResponse.SkillDTO>>> getSkillsByCategory(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -139,6 +192,13 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Skills retrieved successfully", skills));
     }
 
+    /**
+     * Retrieves detailed information about a specific skill.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param id the unique identifier of the skill
+     * @return ResponseEntity containing SkillDetailResponseDto wrapped in an ApiResponse
+     */
     @GetMapping("/skills/{id}/details")
     public ResponseEntity<ApiResponse<SkillDetailResponseDto>> getSkillDetailsByAdmin(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -148,6 +208,13 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Skill details retrieved successfully", details));
     }
 
+    /**
+     * Adds a new skill to an existing category.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param dto the request payload for the new skill
+     * @return ResponseEntity containing the created SkillDTO wrapped in an ApiResponse
+     */
     @PostMapping("/skills")
     public ResponseEntity<ApiResponse<ApiResponse.SkillDTO>> addSkillToCategory(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -158,6 +225,14 @@ public class AdminController {
                 .body(new ApiResponse<>(true, "Skill added successfully", created));
     }
 
+    /**
+     * Blocks a user from accessing the platform.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param id the unique identifier of the user to block
+     * @param statusUpdateDto the payload containing the reason for blocking
+     * @return ResponseEntity indicating success
+     */
     @PatchMapping("/users/{id}/block")
     public ResponseEntity<ApiResponse<String>> blockUser(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                                          @PathVariable Long id,
@@ -168,6 +243,14 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse<>(true, "User blocked successfully", null));
     }
 
+    /**
+     * Unblocks a previously blocked user.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param id the unique identifier of the user to unblock
+     * @param statusUpdateDto the payload containing the reason for unblocking
+     * @return ResponseEntity indicating success
+     */
     @PatchMapping("/users/{id}/unblock")
     public ResponseEntity<ApiResponse<String>> unblockUser(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                                            @PathVariable Long id,
@@ -178,6 +261,13 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse<>(true, "User unblocked successfully", null));
     }
 
+    /**
+     * Retrieves all user queries (help/support tickets).
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param status optional status to filter queries
+     * @return ResponseEntity containing a list of UserQuery wrapped in an ApiResponse
+     */
     @GetMapping("/queries")
     public ResponseEntity<ApiResponse<List<UserQuery>>> getAllQueries(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -191,6 +281,14 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Queries retrieved successfully", queries));
     }
 
+    /**
+     * Replies to a specific user query.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param queryId the unique identifier of the query
+     * @param replyDto the reply payload
+     * @return ResponseEntity containing the updated UserQuery wrapped in an ApiResponse
+     */
     @PatchMapping("/queries/{queryId}/reply")
     public ResponseEntity<ApiResponse<UserQuery>> replyToQuery(
             @RequestHeader(value = "Authorization", required = false) String authHeader,

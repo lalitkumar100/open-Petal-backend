@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * Data Transfer Object representing a skill detail response dto.
+ */
 @Data
 @Builder
 public class SkillDetailResponseDto {

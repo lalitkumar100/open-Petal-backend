@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of the user query service.
+ */
 @Service
 public class UserQueryServiceImpl implements UserQueryService {
 

@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+/**
+ * Data Transfer Object representing a create inquiry dto.
+ */
 @Data
 public class CreateInquiryDto {
 

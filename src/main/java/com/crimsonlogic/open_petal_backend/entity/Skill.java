@@ -10,6 +10,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity class representing a skill.
+ */
 @Entity
 @Table(name = "skills")
 @Getter

@@ -4,6 +4,12 @@ import com.crimsonlogic.open_petal_backend.dto.conflict.UserConflictSummaryRespo
 
 import java.util.List;
 
+/**
+ * Service interface for conflict operations.
+ */
 public interface ConflictService {
+    /**
+     * Get My Conflicts.
+     */
     List<UserConflictSummaryResponseDto> getMyConflicts(Long userId);
 }

@@ -1,4 +1,4 @@
-package com.crimsonlogic.open_petal_backend.controller;
+package com.crimsonlogic.open_petal_backend.controller.user;
 
 import com.crimsonlogic.open_petal_backend.dto.chat.ChatMessageDto;
 import com.crimsonlogic.open_petal_backend.dto.chat.ConversationSummaryDto;
@@ -20,6 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * REST Controller for managing user chats and messaging.
+ * Provides endpoints for retrieving conversations, sending messages, and tracking read status.
+ */
 @RestController
 @RequestMapping("/api/v1/chat")
 @RequiredArgsConstructor
@@ -29,6 +33,12 @@ public class ChatController {
     private final AuthService authService;
     private final UserService userService;
 
+    /**
+     * Retrieves all active chat conversations for the authenticated user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @return ResponseEntity containing a list of ConversationSummaryDto
+     */
     @GetMapping("/conversations")
     public ResponseEntity<?> getConversations(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         try {
@@ -40,6 +50,13 @@ public class ChatController {
         }
     }
 
+    /**
+     * Retrieves messages for a specific connection request conversation.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param connectionRequestId the unique identifier of the connection/conversation
+     * @return ResponseEntity containing a list of ChatMessageDto
+     */
     @GetMapping("/{connectionRequestId}/messages")
     public ResponseEntity<?> getMessages(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                          @PathVariable Long connectionRequestId) {
@@ -52,6 +69,14 @@ public class ChatController {
         }
     }
 
+    /**
+     * Sends a new message in a specific conversation.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param connectionRequestId the unique identifier of the conversation
+     * @param request the payload containing the message text
+     * @return ResponseEntity containing the created ChatMessageDto
+     */
     @PostMapping("/{connectionRequestId}/send")
     public ResponseEntity<?> sendMessage(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                          @PathVariable Long connectionRequestId,
@@ -65,6 +90,13 @@ public class ChatController {
         }
     }
 
+    /**
+     * Marks all unread messages in a specific conversation as read.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param connectionRequestId the unique identifier of the conversation
+     * @return ResponseEntity indicating success
+     */
     @PutMapping("/{connectionRequestId}/read")
     public ResponseEntity<?> markAsRead(@RequestHeader(value = "Authorization", required = false) String authHeader,
                                         @PathVariable Long connectionRequestId) {
@@ -77,6 +109,12 @@ public class ChatController {
         }
     }
 
+    /**
+     * Retrieves the total count of unread messages for the authenticated user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @return ResponseEntity containing an UnreadCountResponseDto
+     */
     @GetMapping("/unread-count")
     public ResponseEntity<?> getUnreadCount(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         try {

@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data Transfer Object representing a user status update dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

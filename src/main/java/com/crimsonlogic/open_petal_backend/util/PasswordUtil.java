@@ -4,6 +4,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Utility class for password.
+ */
 public class PasswordUtil {
 
     public static String generateHash(String plainPassword) {

@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Data Transfer Object representing a admin user details dto.
+ */
 @Data
 @Builder
 @NoArgsConstructor

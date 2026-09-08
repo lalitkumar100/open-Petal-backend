@@ -1,4 +1,4 @@
-package com.crimsonlogic.open_petal_backend.dto;
+package com.crimsonlogic.open_petal_backend.dto.session;
 
 import com.crimsonlogic.open_petal_backend.enums.SessionType;
 import com.crimsonlogic.open_petal_backend.enums.TeachingMode;
@@ -10,6 +10,9 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Data Transfer Object representing a create session dto.
+ */
 @Data
 public class CreateSessionDto {
 

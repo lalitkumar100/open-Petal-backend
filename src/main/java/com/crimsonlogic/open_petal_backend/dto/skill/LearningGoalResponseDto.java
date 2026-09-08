@@ -4,6 +4,9 @@ import com.crimsonlogic.open_petal_backend.enums.SkillLevel;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * Data Transfer Object representing a learning goal response dto.
+ */
 @Data
 @Builder
 public class LearningGoalResponseDto {

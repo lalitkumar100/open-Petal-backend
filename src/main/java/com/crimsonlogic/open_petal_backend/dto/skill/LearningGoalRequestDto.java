@@ -1,9 +1,12 @@
-package com.crimsonlogic.open_petal_backend.dto;
+package com.crimsonlogic.open_petal_backend.dto.skill;
 
 import com.crimsonlogic.open_petal_backend.enums.SkillLevel;
 import lombok.Data;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Data Transfer Object representing a learning goal request dto.
+ */
 @Data
 public class LearningGoalRequestDto {
     @NotNull(message = "User ID is required")

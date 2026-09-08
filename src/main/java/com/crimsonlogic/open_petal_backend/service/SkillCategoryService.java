@@ -6,15 +6,33 @@ import org.springframework.data.domain.Page;
 
 import java.util.List;
 
+/**
+ * Service interface for skill category operations.
+ */
 public interface SkillCategoryService {
 
+    /**
+     * Create Category.
+     */
     SkillCategory createCategory(SkillCategoryRequestDto dto);
 
+    /**
+     * Update Category.
+     */
     SkillCategory updateCategory(Long id, SkillCategoryRequestDto dto);
 
+    /**
+     * Get All Categories.
+     */
     Page<SkillCategory> getAllCategories(int page, int size, String searchQuery);
 
+    /**
+     * Get All Categories.
+     */
     List<SkillCategory> getAllCategories();
 
+    /**
+     * Get Category By Id.
+     */
     SkillCategory getCategoryById(Long id);
 }

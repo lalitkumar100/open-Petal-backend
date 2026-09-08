@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+/**
+ * Data Transfer Object representing a user query request dto.
+ */
 @Data
 public class UserQueryRequestDto {
     @NotNull(message = "Query type is required")

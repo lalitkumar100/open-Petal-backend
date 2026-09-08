@@ -1,4 +1,4 @@
-package com.crimsonlogic.open_petal_backend.dto;
+package com.crimsonlogic.open_petal_backend.dto.common;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+/**
+ * Data Transfer Object representing a api response.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data Transfer Object representing a update user skill dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

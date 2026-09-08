@@ -2,6 +2,9 @@ package com.crimsonlogic.open_petal_backend.exception;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * Exception class for custom.
+ */
 public class CustomException extends RuntimeException {
 
     private final HttpStatus status;

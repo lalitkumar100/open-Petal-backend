@@ -8,6 +8,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import java.time.LocalDate;
 
+/**
+ * Data Transfer Object representing a update profile request dto.
+ */
 @Data
 public class UpdateProfileRequestDto {
     @NotBlank(message = "First name is mandatory")

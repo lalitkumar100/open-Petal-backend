@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of the search service.
+ */
 @Service
 @RequiredArgsConstructor
 public class SearchServiceImpl implements SearchService {
@@ -29,6 +32,9 @@ public class SearchServiceImpl implements SearchService {
     private final UserRepository userRepository;
     private final com.crimsonlogic.open_petal_backend.repository.ConnectionRequestRepository connectionRequestRepository;
 
+    /**
+     * Data Flow: This method retrieves a list of entities from the database.
+     */
     @Override
     @Transactional(readOnly = true)
     public Page<UserSearchSummaryDto> searchUsers(String searchType, String query, Pageable pageable) {
@@ -66,6 +72,9 @@ public class SearchServiceImpl implements SearchService {
         return usersPage.map(this::convertToSummaryDto);
     }
 
+    /**
+     * Data Flow: This method retrieves the entity from the database and maps the result to a Data Transfer Object (DTO).
+     */
     @Override
     @Transactional(readOnly = true)
     public UserDetailsDto getUserDetails(Long userId, Long loggedInUserId) {
@@ -89,6 +98,9 @@ public class SearchServiceImpl implements SearchService {
         return dto;
     }
 
+    /**
+     * Data Flow: This method maps the result to a Data Transfer Object (DTO).
+     */
     private UserSearchSummaryDto convertToSummaryDto(User user) {
         List<SkillBadgeDto> learningSkills = user.getLearningGoals() == null ? new ArrayList<>() :
                 user.getLearningGoals().stream()
@@ -123,6 +135,9 @@ public class SearchServiceImpl implements SearchService {
                 .build();
     }
 
+    /**
+     * Data Flow: This method maps the result to a Data Transfer Object (DTO).
+     */
     private UserDetailsDto convertToDetailsDto(User user) {
         String status = "ACTIVE";
         String role = "USER";

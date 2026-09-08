@@ -1,6 +1,6 @@
-package com.crimsonlogic.open_petal_backend.controller;
+package com.crimsonlogic.open_petal_backend.controller.admin;
 
-import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
+import com.crimsonlogic.open_petal_backend.dto.common.ApiResponse;
 import com.crimsonlogic.open_petal_backend.dto.admin.AdminCancelSessionRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.admin.AdminSessionDetailResponseDto;
 import com.crimsonlogic.open_petal_backend.dto.admin.AdminSessionSummaryResponseDto;
@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST Controller for administrative session management.
+ * Provides endpoints for admins to view all global sessions and force-cancel them.
+ */
 @RestController
 @RequestMapping("/api/v1/admin/sessions")
 @RequiredArgsConstructor
@@ -22,6 +26,12 @@ public class AdminSessionController {
     private final SessionService sessionService;
     private final AuthService authService;
 
+    /**
+     * Retrieves a global list of all sessions across the platform.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @return ResponseEntity containing a list of AdminSessionSummaryResponseDto wrapped in an ApiResponse
+     */
     @GetMapping
     public ResponseEntity<ApiResponse<List<AdminSessionSummaryResponseDto>>> getAllSessions(
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
@@ -30,6 +40,13 @@ public class AdminSessionController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Global sessions retrieved", sessions));
     }
 
+    /**
+     * Retrieves detailed information about a specific session for admins.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param id the unique identifier of the session
+     * @return ResponseEntity containing AdminSessionDetailResponseDto wrapped in an ApiResponse
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<AdminSessionDetailResponseDto>> getSessionDetails(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -39,6 +56,14 @@ public class AdminSessionController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Session details retrieved", detail));
     }
 
+    /**
+     * Force-cancels a session administratively.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param id the unique identifier of the session to cancel
+     * @param request the payload containing the cancellation reason
+     * @return ResponseEntity indicating the success of the cancellation
+     */
     @PutMapping("/{id}/cancel")
     public ResponseEntity<ApiResponse<String>> cancelSession(
             @RequestHeader(value = "Authorization", required = false) String authHeader,

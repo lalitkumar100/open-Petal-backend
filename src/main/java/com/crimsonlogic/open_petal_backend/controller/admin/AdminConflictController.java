@@ -1,6 +1,6 @@
-package com.crimsonlogic.open_petal_backend.controller;
+package com.crimsonlogic.open_petal_backend.controller.admin;
 
-import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
+import com.crimsonlogic.open_petal_backend.dto.common.ApiResponse;
 import com.crimsonlogic.open_petal_backend.dto.admin.AdminConflictDetailResponseDto;
 import com.crimsonlogic.open_petal_backend.dto.admin.AdminConflictSummaryResponseDto;
 import com.crimsonlogic.open_petal_backend.dto.admin.ResolveConflictRequestDto;
@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST Controller for administrative conflict management.
+ * Provides endpoints for admins to view and resolve session conflicts.
+ */
 @RestController
 @RequestMapping("/api/v1/admin/conflicts")
 @RequiredArgsConstructor
@@ -24,6 +28,12 @@ public class AdminConflictController {
     private final AuthService authService;
     private final UserService userService;
 
+    /**
+     * Retrieves a global list of all conflicts.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @return ResponseEntity containing a list of AdminConflictSummaryResponseDto wrapped in an ApiResponse
+     */
     @GetMapping
     public ResponseEntity<ApiResponse<List<AdminConflictSummaryResponseDto>>> getAllConflicts(
             @RequestHeader(value = "Authorization", required = false) String authHeader) {
@@ -32,6 +42,13 @@ public class AdminConflictController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Global conflicts retrieved", conflicts));
     }
 
+    /**
+     * Retrieves detailed information about a specific conflict.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param id the unique identifier of the conflict
+     * @return ResponseEntity containing AdminConflictDetailResponseDto wrapped in an ApiResponse
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<AdminConflictDetailResponseDto>> getConflictDetails(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -41,6 +58,14 @@ public class AdminConflictController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Conflict details retrieved", detail));
     }
 
+    /**
+     * Resolves a specific conflict.
+     *
+     * @param authHeader the authorization header containing the admin token
+     * @param id the unique identifier of the conflict to resolve
+     * @param request the resolution payload
+     * @return ResponseEntity indicating the success of the resolution
+     */
     @PutMapping("/{id}/resolve")
     public ResponseEntity<ApiResponse<String>> resolveConflict(
             @RequestHeader(value = "Authorization", required = false) String authHeader,

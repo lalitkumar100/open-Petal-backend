@@ -8,6 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity class representing a chat message.
+ */
 @Entity
 @Table(name = "chat_messages")
 @Getter

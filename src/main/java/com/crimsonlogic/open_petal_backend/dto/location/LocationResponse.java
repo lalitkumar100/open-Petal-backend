@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Data Transfer Object representing a location response.
+ */
 @Data
 @Builder
 @NoArgsConstructor

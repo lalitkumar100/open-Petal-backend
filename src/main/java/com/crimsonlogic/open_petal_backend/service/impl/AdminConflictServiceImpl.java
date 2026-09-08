@@ -24,6 +24,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of the admin conflict service.
+ */
 @Service
 @RequiredArgsConstructor
 public class AdminConflictServiceImpl implements AdminConflictService {
@@ -77,6 +80,9 @@ public class AdminConflictServiceImpl implements AdminConflictService {
                 .build();
     }
 
+    /**
+     * Data Flow: This method performs input/state validation, retrieves the entity from the database, persists changes to the database, and maps the result to a Data Transfer Object (DTO).
+     */
     @Override
     @Transactional
     public void resolveConflict(Long conflictId, Long adminUserId, ResolveConflictRequestDto request) {

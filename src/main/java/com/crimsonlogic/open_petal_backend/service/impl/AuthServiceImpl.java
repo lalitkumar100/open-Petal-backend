@@ -24,6 +24,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Implementation of the auth service.
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -39,6 +42,16 @@ public class AuthServiceImpl implements AuthService {
         this.emailService = emailService;
     }
 
+    /**
+     * Registers a new user in the system.
+     * Validates that the email is not already in use, creates a new Login credential,
+     * hashes the password, and creates the associated User profile.
+     * An email verification token is then generated and dispatched.
+     *
+     * @param request the registration details containing email, password, and personal info
+     * @return RegisterResponseDto containing the newly created user's basic information
+     * @throws CustomException if the email is already registered
+     */
     @Override
     @Transactional
     public RegisterResponseDto register(RegisterRequestDto request) {
@@ -78,6 +91,16 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
+    /**
+     * Authenticates a user and generates a JWT token for session management.
+     * Retrieves the login credentials by email, verifies the password hash, and checks
+     * the account status to ensure it's ACTIVE. Updates the last login timestamp upon success.
+     *
+     * @param request the login credentials (email and password)
+     * @return LoginResponseDto containing the JWT token and user profile details
+     * @throws AuthenticationException if the email or password is incorrect
+     * @throws AuthorizationException if the account is blocked or inactive
+     */
     @Override
     @Transactional
     public LoginResponseDto login(LoginRequestDto request) {
@@ -141,6 +164,14 @@ public class AuthServiceImpl implements AuthService {
         return jwtUtil.extractEmail(token);
     }
 
+    /**
+     * Updates the user's password after verifying their current password.
+     *
+     * @param email the email of the authenticated user
+     * @param request the request containing the current password and the new password
+     * @throws CustomException if the user is not found
+     * @throws AuthenticationException if the current password does not match
+     */
     @Override
     @Transactional
     public void changePassword(String email, ChangePasswordRequestDto request) {
@@ -155,6 +186,15 @@ public class AuthServiceImpl implements AuthService {
         loginRepository.save(login);
     }
 
+    /**
+     * Verifies a user's email address using a secure JWT token.
+     * Parses the token claims, checks for expiration and type, and updates the
+     * user's account status to ACTIVE if successful.
+     *
+     * @param token the verification JWT token sent via email
+     * @throws AuthenticationException if the token is invalid, expired, or of the wrong type
+     * @throws CustomException if the user is not found or already verified
+     */
     @Override
     @Transactional
     public void verifyEmail(String token) {
@@ -188,6 +228,16 @@ public class AuthServiceImpl implements AuthService {
         emailService.sendPasswordResetEmail(login.getEmail(), token);
     }
 
+    /**
+     * Resets a user's password using a secure reset token.
+     * Validates the token's type, expiration, and ensures it hasn't been invalidated
+     * by a previous password change. Hashes and saves the new password.
+     *
+     * @param token the password reset JWT token
+     * @param request the new password payload
+     * @throws AuthenticationException if the token is invalid, expired, or invalidated
+     * @throws CustomException if the user is not found
+     */
     @Override
     @Transactional
     public void resetPassword(String token, ResetPasswordRequestDto request) {
@@ -216,6 +266,15 @@ public class AuthServiceImpl implements AuthService {
         loginRepository.save(login);
     }
 
+    /**
+     * Updates the active status of the authenticated user.
+     * Allows users to deactivate or activate their own accounts.
+     *
+     * @param email the email of the authenticated user
+     * @param newStatus the new AccountStatus to apply
+     * @return the updated Login entity
+     * @throws RecordNotFoundException if the user is not found
+     */
     @Override
     @Transactional
     public Login changeSelfStatus(String email, AccountStatus newStatus) {

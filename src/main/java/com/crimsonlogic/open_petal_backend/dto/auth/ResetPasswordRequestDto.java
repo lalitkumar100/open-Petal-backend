@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+/**
+ * Data Transfer Object representing a reset password request dto.
+ */
 @Data
 public class ResetPasswordRequestDto {
     @NotBlank(message = "New password is mandatory")

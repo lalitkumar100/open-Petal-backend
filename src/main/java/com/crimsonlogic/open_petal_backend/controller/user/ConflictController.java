@@ -1,6 +1,6 @@
-package com.crimsonlogic.open_petal_backend.controller;
+package com.crimsonlogic.open_petal_backend.controller.user;
 
-import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
+import com.crimsonlogic.open_petal_backend.dto.common.ApiResponse;
 import com.crimsonlogic.open_petal_backend.dto.conflict.UserConflictSummaryResponseDto;
 import com.crimsonlogic.open_petal_backend.exception.AuthenticationException;
 import com.crimsonlogic.open_petal_backend.service.AuthService;
@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST Controller for managing user conflicts.
+ * Provides endpoints for users to view and manage their session conflicts.
+ */
 @RestController
 @RequestMapping("/api/v1/conflicts")
 @RequiredArgsConstructor
@@ -21,6 +25,12 @@ public class ConflictController {
     private final AuthService authService;
     private final UserService userService;
 
+    /**
+     * Retrieves all conflicts associated with the authenticated user.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @return ResponseEntity containing a list of UserConflictSummaryResponseDto wrapped in an ApiResponse
+     */
     @GetMapping("/my-conflicts")
     public ResponseEntity<ApiResponse<List<UserConflictSummaryResponseDto>>> getMyConflicts(
             @RequestHeader(value = "Authorization", required = false) String authHeader) {

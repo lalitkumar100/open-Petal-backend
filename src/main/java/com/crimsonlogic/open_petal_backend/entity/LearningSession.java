@@ -12,6 +12,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Entity class representing a learning session.
+ */
 @Entity
 @Table(name = "learning_sessions")
 @Getter

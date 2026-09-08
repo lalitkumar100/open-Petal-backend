@@ -6,7 +6,7 @@ import com.crimsonlogic.open_petal_backend.dto.category.SkillCategoryRequestDto;
 import com.crimsonlogic.open_petal_backend.service.AuthService;
 import com.crimsonlogic.open_petal_backend.service.SkillCategoryService;
 import com.crimsonlogic.open_petal_backend.service.SkillService;
-import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
+import com.crimsonlogic.open_petal_backend.dto.common.ApiResponse;
 import com.crimsonlogic.open_petal_backend.entity.SkillCategory;
 import java.util.Map;
 import org.slf4j.Logger;

@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Data Transfer Object representing a admin conflict detail response dto.
+ */
 @Data
 @Builder
 @NoArgsConstructor

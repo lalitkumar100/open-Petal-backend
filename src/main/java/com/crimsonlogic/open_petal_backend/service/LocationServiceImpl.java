@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service interface for location operations.
+ */
 @Service
 @RequiredArgsConstructor
 public class LocationServiceImpl implements LocationService {
@@ -25,27 +28,51 @@ public class LocationServiceImpl implements LocationService {
                 .area(request.getArea())
                 .city(request.getCity())
                 .pincode(request.getPincode())
+                /**
+                 * Build.
+                 */
                 .build();
         
+        /**
+         * Save.
+         */
         Location savedLocation = locationRepository.save(location);
+        /**
+         * Map To Response.
+         */
         return mapToResponse(savedLocation);
     }
 
     @Override
     public LocationResponse getLocationById(Long id) {
         Location location = locationRepository.findByIdAndIsDeletedFalse(id)
+                /**
+                 * Or Else Throw.
+                 */
                 .orElseThrow(() -> new ResourceNotFoundException("Location not found with id: " + id));
+        /**
+         * Map To Response.
+         */
         return mapToResponse(location);
     }
 
     @Override
     public List<LocationSummaryResponse> getAllLocations() {
+        /**
+         * Find By Is Deleted False Order By Created At Desc.
+         */
         List<Location> locations = locationRepository.findByIsDeletedFalseOrderByCreatedAtDesc();
         return locations.stream()
                 .map(this::mapToSummaryResponse)
+                /**
+                 * Collect.
+                 */
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Data Flow: Executes the business logic by processing the input parameters.
+     */
     private LocationResponse mapToResponse(Location location) {
         return LocationResponse.builder()
                 .id(location.getId())
@@ -56,9 +83,15 @@ public class LocationServiceImpl implements LocationService {
                 .pincode(location.getPincode())
                 .createdAt(location.getCreatedAt())
                 .updatedAt(location.getUpdatedAt())
+                /**
+                 * Build.
+                 */
                 .build();
     }
 
+    /**
+     * Data Flow: Executes the business logic by processing the input parameters.
+     */
     private LocationSummaryResponse mapToSummaryResponse(Location location) {
         return LocationSummaryResponse.builder()
                 .id(location.getId())
@@ -66,6 +99,9 @@ public class LocationServiceImpl implements LocationService {
                 .area(location.getArea())
                 .city(location.getCity())
                 .pincode(location.getPincode())
+                /**
+                 * Build.
+                 */
                 .build();
     }
 }

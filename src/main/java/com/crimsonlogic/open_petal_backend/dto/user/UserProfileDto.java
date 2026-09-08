@@ -9,6 +9,9 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * Data Transfer Object representing a user profile dto.
+ */
 @Data
 @Builder
 public class UserProfileDto {

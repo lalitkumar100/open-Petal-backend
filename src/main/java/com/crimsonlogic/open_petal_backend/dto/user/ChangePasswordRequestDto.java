@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+/**
+ * Data Transfer Object representing a change password request dto.
+ */
 @Data
 public class ChangePasswordRequestDto {
 

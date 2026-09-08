@@ -7,6 +7,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * Data Transfer Object representing a register response dto.
+ */
 @Data
 @Builder
 public class RegisterResponseDto {

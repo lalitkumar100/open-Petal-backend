@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Data Transfer Object representing a session summary response dto.
+ */
 @Data
 @Builder
 @NoArgsConstructor

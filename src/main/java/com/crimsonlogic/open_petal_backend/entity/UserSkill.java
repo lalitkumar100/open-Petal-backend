@@ -18,6 +18,9 @@ import java.time.LocalDateTime;
         name = "user_skills",
         uniqueConstraints = @UniqueConstraint(name = "unique_user_offered_skill", columnNames = {"user_id", "skill_id"})
 )
+/**
+ * Entity class representing a user skill.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import java.time.LocalDateTime;
 
+/**
+ * Data Transfer Object representing a update status response dto.
+ */
 @Data
 @Builder
 public class UpdateStatusResponseDto {

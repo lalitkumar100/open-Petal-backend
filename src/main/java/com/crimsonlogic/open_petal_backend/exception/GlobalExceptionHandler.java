@@ -1,6 +1,6 @@
 package com.crimsonlogic.open_petal_backend.exception;
 
-import com.crimsonlogic.open_petal_backend.dto.ErrorDTO;
+import com.crimsonlogic.open_petal_backend.dto.common.ErrorDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,9 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Exception class for global handler.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

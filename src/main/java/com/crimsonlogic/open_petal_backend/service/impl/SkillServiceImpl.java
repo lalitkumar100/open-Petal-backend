@@ -1,6 +1,6 @@
 package com.crimsonlogic.open_petal_backend.service.impl;
 
-import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
+import com.crimsonlogic.open_petal_backend.dto.common.ApiResponse;
 import com.crimsonlogic.open_petal_backend.dto.admin.AddSkillRequestDto;
 import com.crimsonlogic.open_petal_backend.entity.Skill;
 import com.crimsonlogic.open_petal_backend.entity.SkillCategory;
@@ -22,6 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of the skill service.
+ */
 @Service
 @RequiredArgsConstructor
 public class SkillServiceImpl implements SkillService {
@@ -115,6 +118,15 @@ public class SkillServiceImpl implements SkillService {
         return skillPage.map(this::mapToDTO);
     }
 
+    /**
+     * Retrieves detailed administrative information for a specific skill.
+     * Aggregates the total number of learners targeting this skill and the total number
+     * of teachers offering it by querying the LearningGoal and UserSkill repositories.
+     *
+     * @param skillId the unique identifier of the skill
+     * @return SkillDetailResponseDto containing skill details and aggregate metrics
+     * @throws EntityNotFoundException if the skill does not exist
+     */
     @Override
     @Transactional(readOnly = true)
     public SkillDetailResponseDto getAdminSkillDetails(Long skillId) {
@@ -137,6 +149,14 @@ public class SkillServiceImpl implements SkillService {
                 .build();
     }
 
+    /**
+     * Deletes a skill from the system.
+     * Validates the skill's existence before attempting deletion.
+     * Note: This performs a hard delete; cascading rules apply based on entity mappings.
+     *
+     * @param id the unique identifier of the skill to remove
+     * @throws EntityNotFoundException if the skill is not found
+     */
     @Override
     @Transactional
     public void deleteSkill(Long id) {

@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data Transfer Object representing a location create request.
+ */
 @Data
 @Builder
 @NoArgsConstructor

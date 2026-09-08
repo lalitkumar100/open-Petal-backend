@@ -1,6 +1,6 @@
-package com.crimsonlogic.open_petal_backend.controller;
+package com.crimsonlogic.open_petal_backend.controller.user;
 
-import com.crimsonlogic.open_petal_backend.dto.ApiResponse;
+import com.crimsonlogic.open_petal_backend.dto.common.ApiResponse;
 import com.crimsonlogic.open_petal_backend.dto.search.UserDetailsDto;
 import com.crimsonlogic.open_petal_backend.dto.search.UserSearchSummaryDto;
 import com.crimsonlogic.open_petal_backend.service.SearchService;
@@ -18,6 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST Controller for search operations.
+ * Provides endpoints for searching users and retrieving public user details.
+ */
 @RestController
 @RequestMapping("/api/v1/search")
 @RequiredArgsConstructor
@@ -29,8 +33,13 @@ public class SearchController {
     private final UserService userService;
 
     /**
-     * Search users by user name/email or skill name
-     * GET /api/v1/search/users?searchType=user&query=john&page=0&size=10
+     * Searches for users based on name, email, or skill.
+     *
+     * @param searchType the type of search (e.g., user, skill)
+     * @param query the search query string
+     * @param page the page number to retrieve
+     * @param size the number of records per page
+     * @return ResponseEntity containing a paginated list of UserSearchSummaryDto
      */
     @GetMapping("/users")
     public ResponseEntity<ApiResponse<Page<UserSearchSummaryDto>>> searchUsers(
@@ -45,8 +54,11 @@ public class SearchController {
     }
 
     /**
-     * Get user details for user profile / details page
-     * GET /api/v1/search/users/1/details
+     * Retrieves detailed profile information for a specific user.
+     *
+     * @param id the unique identifier of the user to retrieve
+     * @param authHeader optional authorization header for authenticated viewing context
+     * @return ResponseEntity containing UserDetailsDto
      */
     @GetMapping("/users/{id}/details")
     public ResponseEntity<ApiResponse<UserDetailsDto>> getUserDetails(

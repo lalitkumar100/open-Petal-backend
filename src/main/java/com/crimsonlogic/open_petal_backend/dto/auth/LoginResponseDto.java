@@ -5,6 +5,9 @@ import com.crimsonlogic.open_petal_backend.enums.RoleType;
 import lombok.Builder;
 import lombok.Data;
 
+/**
+ * Data Transfer Object representing a login response dto.
+ */
 @Data
 @Builder
 public class LoginResponseDto {

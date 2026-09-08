@@ -1,10 +1,13 @@
-package com.crimsonlogic.open_petal_backend.dto;
+package com.crimsonlogic.open_petal_backend.dto.connection;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data Transfer Object representing a send connection request dto.
+ */
 @Data
 @Builder
 @NoArgsConstructor

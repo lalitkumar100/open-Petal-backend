@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of the conflict service.
+ */
 @Service
 @RequiredArgsConstructor
 public class ConflictServiceImpl implements ConflictService {

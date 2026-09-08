@@ -4,6 +4,9 @@ import com.crimsonlogic.open_petal_backend.enums.SkillLevel;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+/**
+ * Data Transfer Object representing a create learning goal dto.
+ */
 @Data
 public class CreateLearningGoalDto {
     @NotNull(message = "Skill ID is required")

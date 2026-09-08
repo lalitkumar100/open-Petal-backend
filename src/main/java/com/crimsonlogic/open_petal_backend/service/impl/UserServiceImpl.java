@@ -22,6 +22,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import jakarta.persistence.criteria.Predicate;
 
+/**
+ * Implementation of the user service.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 

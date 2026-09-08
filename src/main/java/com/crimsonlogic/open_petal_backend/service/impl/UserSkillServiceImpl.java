@@ -18,6 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Implementation of the user skill service.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -87,6 +90,9 @@ public class UserSkillServiceImpl implements UserSkillService {
         userSkillRepository.deleteByUserIdAndSkillId(userId, skillId);
     }
 
+    /**
+     * Data Flow: This method performs input/state validation and retrieves the entity from the database.
+     */
     @Override
     @Transactional(readOnly = true)
     public List<UserSkill> getAllSkillsByUser(Long userId) {
@@ -96,6 +102,9 @@ public class UserSkillServiceImpl implements UserSkillService {
         return userSkillRepository.findByUserId(userId);
     }
 
+    /**
+     * Data Flow: This method retrieves the entity from the database.
+     */
     @Override
     @Transactional(readOnly = true)
     public UserSkill getUserSkillDetails(Long userId, Long skillId) {

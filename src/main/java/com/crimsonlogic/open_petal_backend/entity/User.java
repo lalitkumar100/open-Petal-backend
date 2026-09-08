@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entity class representing a user.
+ */
 @Entity
 @Table(name = "users")
 @Getter
@@ -27,6 +30,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"user", "passwordHash"})
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "auth_id", nullable = false, unique = true)
     private Login login;

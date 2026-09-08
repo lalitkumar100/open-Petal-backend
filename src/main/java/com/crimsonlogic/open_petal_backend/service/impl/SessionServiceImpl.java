@@ -1,6 +1,6 @@
 package com.crimsonlogic.open_petal_backend.service.impl;
 
-import com.crimsonlogic.open_petal_backend.dto.CreateSessionDto;
+import com.crimsonlogic.open_petal_backend.dto.session.CreateSessionDto;
 import com.crimsonlogic.open_petal_backend.dto.admin.AdminSessionDetailResponseDto;
 import com.crimsonlogic.open_petal_backend.dto.admin.AdminSessionSummaryResponseDto;
 import com.crimsonlogic.open_petal_backend.dto.session.SessionDetailResponseDto;
@@ -40,6 +40,9 @@ import com.crimsonlogic.open_petal_backend.dto.session.SessionConflictRequestDto
 import com.crimsonlogic.open_petal_backend.entity.SessionConflict;
 import com.crimsonlogic.open_petal_backend.enums.ConflictStatus;
 
+/**
+ * Implementation of the session service.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -53,6 +56,18 @@ public class SessionServiceImpl implements SessionService {
     private final EmailService emailService;
     private final SessionConflictRepository sessionConflictRepository;
 
+    /**
+     * Creates a new learning session request between a learner and a mentor.
+     * Validates that the learner and mentor are distinct, checks for duplicate active
+     * requests, and ensures the mentor is available during the requested time slot.
+     * Also validates credit requirements for CREDIT sessions and escrow deducts credits.
+     *
+     * @param learnerId the ID of the user requesting the session
+     * @param dto the session details including mentor, time, skill, and type
+     * @return the newly created LearningSession entity in REQUESTED state
+     * @throws CustomException if validation fails (e.g. duplicate, unavailable, insufficient credits)
+     * @throws RecordNotFoundException if the learner, mentor, or location is not found
+     */
     @Override
     @Transactional
     public LearningSession createSession(Long learnerId, CreateSessionDto dto) {
@@ -163,6 +178,9 @@ public class SessionServiceImpl implements SessionService {
         return sessionRepository.save(session);
     }
 
+    /**
+     * Data Flow: Executes the business logic by processing the input parameters.
+     */
     private String generateRandomToken() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb = new StringBuilder();
@@ -258,6 +276,9 @@ public class SessionServiceImpl implements SessionService {
                 .build();
     }
 
+    /**
+     * Data Flow: This method performs input/state validation, retrieves the entity from the database, and persists changes to the database.
+     */
     @Override
     @Transactional
     public void cancelSession(Long sessionId, Long userId) {
@@ -283,6 +304,16 @@ public class SessionServiceImpl implements SessionService {
         sessionRepository.save(session);
     }
 
+    /**
+     * Accepts a pending session request.
+     * Only the designated mentor can perform this action. Transitions the session to SCHEDULED
+     * and generates the one-time passwords (OTPs) required for session start and end verification.
+     *
+     * @param sessionId the ID of the session request
+     * @param currentUserId the ID of the mentor accepting the request
+     * @throws CustomException if the user is not the mentor or the session is not REQUESTED
+     * @throws RecordNotFoundException if the session is not found
+     */
     @Override
     @Transactional
     public void acceptSession(Long sessionId, Long currentUserId) {
@@ -308,6 +339,9 @@ public class SessionServiceImpl implements SessionService {
         sessionRepository.save(session);
     }
 
+    /**
+     * Data Flow: This method performs input/state validation, retrieves the entity from the database, and persists changes to the database.
+     */
     @Override
     @Transactional
     public void declineSession(Long sessionId, Long currentUserId) {
@@ -418,6 +452,9 @@ public class SessionServiceImpl implements SessionService {
         throw new CustomException("Forbidden", HttpStatus.FORBIDDEN);
     }
 
+    /**
+     * Data Flow: This method performs input/state validation, retrieves the entity from the database, persists changes to the database, and maps the result to a Data Transfer Object (DTO).
+     */
     @Override
     @Transactional
     public void verifyStart(Long sessionId, Long userId, SessionOtpRequestDto dto) {
@@ -456,6 +493,9 @@ public class SessionServiceImpl implements SessionService {
 
 
 
+    /**
+     * Data Flow: This method performs input/state validation, retrieves the entity from the database, persists changes to the database, and maps the result to a Data Transfer Object (DTO).
+     */
     @Override
     @Transactional
     public void verifyEnd(Long sessionId, Long userId, SessionOtpRequestDto dto) {
@@ -498,6 +538,9 @@ public class SessionServiceImpl implements SessionService {
         sessionRepository.save(session);
     }
 
+    /**
+     * Data Flow: This method performs input/state validation, retrieves the entity from the database, persists changes to the database, and maps the result to a Data Transfer Object (DTO).
+     */
     @Override
     @Transactional
     public void raiseConflict(Long sessionId, Long userId, SessionConflictRequestDto dto) {
@@ -546,6 +589,9 @@ public class SessionServiceImpl implements SessionService {
         log.info("Conflict raised for session ID: {} by user ID: {}", sessionId, userId);
     }
 
+    /**
+     * Data Flow: This method performs input/state validation, retrieves the entity from the database, and persists changes to the database.
+     */
     @Override
     @Transactional
     public void adminCancelSession(Long sessionId, String reason) {
@@ -593,6 +639,9 @@ public class SessionServiceImpl implements SessionService {
                 .build();
     }
 
+    /**
+     * Data Flow: This method performs input/state validation, retrieves the entity from the database, and persists changes to the database.
+     */
     @Override
     @Transactional
     public void submitConflictStory(Long sessionId, Long currentUserId, String story) {

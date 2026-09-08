@@ -10,6 +10,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Data Transfer Object representing a skill category request dto.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

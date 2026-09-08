@@ -4,6 +4,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+/**
+ * Data Transfer Object representing a login request dto.
+ */
 @Data
 public class LoginRequestDto {
     @NotBlank(message = "Email is mandatory")

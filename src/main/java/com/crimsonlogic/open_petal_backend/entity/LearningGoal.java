@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
         name = "learning_goals",
         uniqueConstraints = @UniqueConstraint(name = "unique_user_learning_goal", columnNames = {"user_id", "skill_id"})
 )
+/**
+ * Entity class representing a learning goal.
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,6 +29,7 @@ public class LearningGoal {
     private Long id;
 
     // The learner
+    @com.fasterxml.jackson.annotation.JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
                 @Index(name = "idx_inquiry_sender", columnList = "sender_id")
         }
 )
+/**
+ * Entity class representing a skill inquiry.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

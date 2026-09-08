@@ -6,6 +6,9 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * Data Transfer Object representing a update profile response dto.
+ */
 @Data
 @Builder
 public class UpdateProfileResponseDto {

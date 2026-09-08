@@ -8,6 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity class representing a location.
+ */
 @Entity
 @Table(name = "locations")
 @Getter

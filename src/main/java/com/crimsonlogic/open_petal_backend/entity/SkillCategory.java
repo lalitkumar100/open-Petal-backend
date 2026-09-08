@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entity class representing a skill category.
+ */
 @Entity
 @Table(name = "skill_categories")
 @Getter

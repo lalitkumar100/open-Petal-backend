@@ -8,6 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity class representing a connection request.
+ */
 @Entity
 @Table(name = "connection_requests")
 @Getter
