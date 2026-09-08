@@ -54,4 +54,6 @@ public interface LearningSessionRepository extends JpaRepository<LearningSession
            "LEFT JOIN FETCH s.location loc " +
            "WHERE s.id = :sessionId AND s.isDeleted = false")
     java.util.Optional<LearningSession> findSessionWithDetailsById(@Param("sessionId") Long sessionId);
+    
+    long countByCreatedAtAfter(java.time.LocalDateTime time);
 }

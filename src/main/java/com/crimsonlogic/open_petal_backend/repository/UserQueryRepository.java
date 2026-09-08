@@ -11,4 +11,5 @@ import java.util.List;
 public interface UserQueryRepository extends JpaRepository<UserQuery, Long> {
     List<UserQuery> findByUserIdOrderByCreatedAtDesc(Long userId);
     List<UserQuery> findByStatusOrderByCreatedAtDesc(QueryStatus status);
+    long countByCreatedAtAfter(java.time.LocalDateTime time);
 }

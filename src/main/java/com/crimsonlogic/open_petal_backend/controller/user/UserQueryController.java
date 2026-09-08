@@ -72,4 +72,18 @@ public class UserQueryController {
         UserQuery query = userQueryService.getQueryById(id);
         return ResponseEntity.ok(new ApiResponse<>(true, "Query retrieved successfully", query));
     }
+
+    /**
+     * Retrieves all queries submitted by the authenticated user.
+     *
+     * @param authHeader the Authorization header containing the JWT token
+     * @return ResponseEntity containing a list of UserQueries
+     */
+    @GetMapping
+    public ResponseEntity<ApiResponse<java.util.List<UserQuery>>> getAllUserQueries(
+            @RequestHeader("Authorization") String authHeader) {
+        Long userId = authenticateAndGetUserId(authHeader);
+        java.util.List<UserQuery> queries = userQueryService.getQueriesByUser(userId);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Queries retrieved successfully", queries));
+    }
 }

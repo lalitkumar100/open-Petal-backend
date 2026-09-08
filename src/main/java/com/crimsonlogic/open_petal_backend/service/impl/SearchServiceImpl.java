@@ -189,4 +189,47 @@ public class SearchServiceImpl implements SearchService {
                 .learningGoals(learningGoals)
                 .build();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserSearchSummaryDto> recommendMentors(Long loggedInUserId) {
+        User user = userRepository.findById(loggedInUserId)
+                .orElseThrow(() -> new RecordNotFoundException("User not found with id: " + loggedInUserId));
+
+        List<Long> learningSkillIds = user.getLearningGoals().stream()
+                .filter(lg -> Boolean.FALSE.equals(lg.getIsDeleted()))
+                .map(lg -> lg.getSkill().getId())
+                .collect(Collectors.toList());
+
+        if (learningSkillIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<User> mentors = userRepository.findMentorsBySkills(loggedInUserId, learningSkillIds);
+        return mentors.stream().map(this::convertToSummaryDto).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserSearchSummaryDto> recommendBarterPartners(Long loggedInUserId) {
+        User user = userRepository.findById(loggedInUserId)
+                .orElseThrow(() -> new RecordNotFoundException("User not found with id: " + loggedInUserId));
+
+        List<Long> learningSkillIds = user.getLearningGoals().stream()
+                .filter(lg -> Boolean.FALSE.equals(lg.getIsDeleted()))
+                .map(lg -> lg.getSkill().getId())
+                .collect(Collectors.toList());
+
+        List<Long> offeredSkillIds = user.getSkillsOffered().stream()
+                .filter(us -> Boolean.FALSE.equals(us.getIsDeleted()))
+                .map(us -> us.getSkill().getId())
+                .collect(Collectors.toList());
+
+        if (learningSkillIds.isEmpty() || offeredSkillIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<User> barterPartners = userRepository.findBarterPartnersBySkills(loggedInUserId, learningSkillIds, offeredSkillIds);
+        return barterPartners.stream().map(this::convertToSummaryDto).collect(Collectors.toList());
+    }
 }

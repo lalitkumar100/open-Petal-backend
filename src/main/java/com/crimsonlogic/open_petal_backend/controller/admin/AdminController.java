@@ -27,6 +27,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.crimsonlogic.open_petal_backend.dto.admin.AdminDashboardDto;
+import com.crimsonlogic.open_petal_backend.service.AdminDashboardService;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -47,10 +49,12 @@ public class AdminController {
     private final LearningGoalService learningGoalService;
     private final SkillCategoryService skillCategoryService;
     private final SkillService skillService;
+    private final AdminDashboardService adminDashboardService;
 
     public AdminController(AuthService authService, UserService userService, UserQueryService userQueryService,
                            UserSkillService userSkillService, LearningGoalService learningGoalService,
-                           SkillCategoryService skillCategoryService, SkillService skillService) {
+                           SkillCategoryService skillCategoryService, SkillService skillService,
+                           AdminDashboardService adminDashboardService) {
         this.authService = authService;
         this.skillCategoryService = skillCategoryService;
         this.userService = userService;
@@ -58,18 +62,20 @@ public class AdminController {
         this.userSkillService = userSkillService;
         this.learningGoalService = learningGoalService;
         this.skillService = skillService;
+        this.adminDashboardService = adminDashboardService;
     }
 
     /**
-     * Retrieves the admin dashboard welcome message.
+     * Retrieves the admin dashboard statistics.
      *
      * @param authHeader the authorization header containing the admin token
-     * @return ResponseEntity containing a welcome message
+     * @return ResponseEntity containing dashboard stats
      */
     @GetMapping("/dashboard")
-    public ResponseEntity<String> getAdminDashboard(@RequestHeader(value = "Authorization", required = false) String authHeader) {
-        String email = authenticateAndGetEmail(authHeader);
-        return ResponseEntity.ok("Welcome Admin! Your email is: " + email);
+    public ResponseEntity<ApiResponse<AdminDashboardDto>> getAdminDashboard(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        authenticateAndGetEmail(authHeader); // Validate admin
+        AdminDashboardDto stats = adminDashboardService.getDashboardStats();
+        return ResponseEntity.ok(new ApiResponse<>(true, "Dashboard stats retrieved successfully", stats));
     }
 
     /**

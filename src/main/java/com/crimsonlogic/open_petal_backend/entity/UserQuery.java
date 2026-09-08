@@ -1,5 +1,6 @@
 package com.crimsonlogic.open_petal_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.crimsonlogic.open_petal_backend.enums.QueryStatus;
 import com.crimsonlogic.open_petal_backend.enums.QueryType;
 import jakarta.persistence.*;
@@ -27,6 +28,7 @@ public class UserQuery {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @Enumerated(EnumType.STRING)

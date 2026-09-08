@@ -17,4 +17,14 @@ public interface SearchService {
      * Get User Details.
      */
     UserDetailsDto getUserDetails(Long userId, Long loggedInUserId);
+    
+    /**
+     * Recommend Mentors based on user's learning goals.
+     */
+    java.util.List<UserSearchSummaryDto> recommendMentors(Long loggedInUserId);
+
+    /**
+     * Recommend Barter Partners based on user's learning goals and skills offered.
+     */
+    java.util.List<UserSearchSummaryDto> recommendBarterPartners(Long loggedInUserId);
 }

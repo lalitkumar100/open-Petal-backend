@@ -10,6 +10,7 @@ import com.crimsonlogic.open_petal_backend.entity.User;
 import com.crimsonlogic.open_petal_backend.exception.AuthenticationException;
 import com.crimsonlogic.open_petal_backend.exception.AuthorizationException;
 import com.crimsonlogic.open_petal_backend.exception.CustomException;
+import com.crimsonlogic.open_petal_backend.exception.RecordNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * REST Controller for search operations.
@@ -80,6 +83,34 @@ public class SearchController {
 
         UserDetailsDto userDetails = searchService.getUserDetails(id, loggedInUserId);
         return ResponseEntity.ok(new ApiResponse<>(true, "User details fetched successfully", userDetails));
+    }
+
+    /**
+     * Retrieves recommended mentors based on the logged-in user's learning goals.
+     */
+    @GetMapping("/recommendations/mentors")
+    public ResponseEntity<ApiResponse<List<UserSearchSummaryDto>>> getMentorRecommendations(
+            @RequestHeader(value = "Authorization") String authHeader) {
+        String email = authenticateAndGetEmail(authHeader);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundException("User not found"));
+        
+        List<UserSearchSummaryDto> recommendations = searchService.recommendMentors(user.getId());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Mentor recommendations fetched successfully", recommendations));
+    }
+
+    /**
+     * Retrieves recommended barter partners based on the logged-in user's skills and goals.
+     */
+    @GetMapping("/recommendations/barter")
+    public ResponseEntity<ApiResponse<List<UserSearchSummaryDto>>> getBarterRecommendations(
+            @RequestHeader(value = "Authorization") String authHeader) {
+        String email = authenticateAndGetEmail(authHeader);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new RecordNotFoundException("User not found"));
+        
+        List<UserSearchSummaryDto> recommendations = searchService.recommendBarterPartners(user.getId());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Barter recommendations fetched successfully", recommendations));
     }
     
     private String authenticateAndGetEmail(String authHeader) {
