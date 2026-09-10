@@ -1,5 +1,9 @@
 package com.crimsonlogic.open_petal_backend.entity;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterAll;
+
+
 import com.crimsonlogic.open_petal_backend.util.PasswordUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +16,23 @@ import static org.mockito.Mockito.mockStatic;
 
 @DisplayName("Login Entity Tests")
 class LoginTest {
+
+    /**
+     * Purpose: Forces garbage collection before all tests for professional memory management.
+     */
+    @BeforeAll
+    static void beforeAll() {
+        System.gc();
+    }
+
+    /**
+     * Purpose: Forces garbage collection after all tests to free up resources.
+     */
+    @AfterAll
+    static void afterAll() {
+        System.gc();
+    }
+
 
     private Login login;
 

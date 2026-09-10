@@ -137,6 +137,68 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
         /**
          * Save.
          */
-        return connectionRequestRepository.save(request);
+        ConnectionRequest savedRequest = connectionRequestRepository.save(request);
+
+        // Ensure at least one chat message exists so the conversation is shown
+        java.util.List<ChatMessage> existingMessages = chatMessageRepository.findByConnectionRequestIdOrderByCreatedAtAsc(requestId);
+        if (existingMessages.isEmpty()) {
+            ChatMessage chatMessage = ChatMessage.builder()
+                    .sender(request.getReceiver())
+                    .receiver(request.getSender())
+                    .connectionRequest(savedRequest)
+                    .content("hello this " + request.getReceiver().getFullName() + " nice to connect will you")
+                    .status(MessageStatus.SENT)
+                    .build();
+            chatMessageRepository.save(chatMessage);
+        }
+
+        return savedRequest;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public java.util.List<com.crimsonlogic.open_petal_backend.dto.connection.ConnectionRequestResponseDto> getSentConnectionRequests(Long senderId) {
+        return connectionRequestRepository.findBySenderIdOrderByCreatedAtDesc(senderId).stream().map(req -> {
+            String receiverName = req.getReceiver().getFullName() != null ? req.getReceiver().getFullName() : "Unknown";
+            String initials = getInitials(receiverName);
+            return com.crimsonlogic.open_petal_backend.dto.connection.ConnectionRequestResponseDto.builder()
+                    .id(req.getId())
+                    .receiverId(req.getReceiver().getId())
+                    .receiverName(receiverName)
+                    .receiverInitials(initials)
+                    .primarySkillName(req.getPrimarySkill() != null ? req.getPrimarySkill().getName() : null)
+                    .offeredSkillName(req.getOfferedSkill() != null ? req.getOfferedSkill().getName() : null)
+                    .status(req.getStatus())
+                    .createdAt(req.getCreatedAt())
+                    .build();
+        }).collect(java.util.stream.Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public java.util.List<com.crimsonlogic.open_petal_backend.dto.connection.ConnectionRequestResponseDto> getPendingReceivedRequests(Long receiverId) {
+        return connectionRequestRepository.findByReceiverIdAndStatusOrderByCreatedAtDesc(receiverId, ConnectionStatus.PENDING).stream().map(req -> {
+            String senderName = req.getSender().getFullName() != null ? req.getSender().getFullName() : "Unknown";
+            String initials = getInitials(senderName);
+            return com.crimsonlogic.open_petal_backend.dto.connection.ConnectionRequestResponseDto.builder()
+                    .id(req.getId())
+                    .receiverId(req.getSender().getId()) // using receiverId field to store the other user's ID
+                    .receiverName(senderName)
+                    .receiverInitials(initials)
+                    .primarySkillName(req.getPrimarySkill() != null ? req.getPrimarySkill().getName() : null)
+                    .offeredSkillName(req.getOfferedSkill() != null ? req.getOfferedSkill().getName() : null)
+                    .status(req.getStatus())
+                    .createdAt(req.getCreatedAt())
+                    .build();
+        }).collect(java.util.stream.Collectors.toList());
+    }
+
+    private String getInitials(String name) {
+        if (name == null || name.trim().isEmpty()) return "?";
+        String[] parts = name.trim().split("\\s+");
+        if (parts.length == 1) {
+            return parts[0].substring(0, Math.min(2, parts[0].length())).toUpperCase();
+        }
+        return (parts[0].substring(0, 1) + parts[parts.length - 1].substring(0, 1)).toUpperCase();
     }
 }

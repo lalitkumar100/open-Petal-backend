@@ -15,61 +15,82 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Production-ready HTTP Request & Response Logging Filter.
+ * Logs clean single-line summaries to console, while persisting detailed API audit logs 
+ * to a dedicated log file ('logs/api.log') which is cleared on server startup.
+ */
 @Component
 public class RequestResponseLoggingFilter extends OncePerRequestFilter {
 
-    private static final Logger log = LoggerFactory.getLogger(RequestResponseLoggingFilter.class);
+    private static final Logger consoleLog = LoggerFactory.getLogger(RequestResponseLoggingFilter.class);
+    private static final Logger apiLog = LoggerFactory.getLogger("API_LOGGER");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        // Wrap the request and response to cache their content
+        // Skip logging for static assets or actuator endpoints if any
+        String uri = request.getRequestURI();
+        if (isStaticOrDocAsset(uri)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request, 10000);
         ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
 
         long startTime = System.currentTimeMillis();
 
         try {
-            // Proceed with the next filter in the chain
             filterChain.doFilter(requestWrapper, responseWrapper);
         } finally {
             long timeTaken = System.currentTimeMillis() - startTime;
+            int status = responseWrapper.getStatus();
 
-            // Extract the cached bodies
             String requestBody = getStringValue(requestWrapper.getContentAsByteArray(), request.getCharacterEncoding());
-            String responseBody = getStringValue(responseWrapper.getContentAsByteArray(), response.getCharacterEncoding());
+            String responseBody = isTextOrJson(responseWrapper.getContentType())
+                    ? getStringValue(responseWrapper.getContentAsByteArray(), response.getCharacterEncoding())
+                    : "[BINARY OR NON-TEXT CONTENT]";
 
-            logRequest(request, requestBody);
-            logResponse(response, responseBody, timeTaken);
+            // 1. Clean, concise single-line console output
+            consoleLog.info("[API] {} {} -> Status {} ({} ms)", request.getMethod(), uri, status, timeTaken);
 
-            // Important: copy the cached response body back to the actual response
+            // 2. Detailed audit entry in dedicated 'logs/api.log' file
+            logApiDetailsToFile(request, requestBody, status, responseBody, timeTaken);
+
+            // Copy cached response body back to the actual HTTP response stream
             responseWrapper.copyBodyToResponse();
         }
     }
 
-    private void logRequest(HttpServletRequest request, String body) {
-        log.info("==================================================");
-        log.info("REQUEST");
-        log.info("{} {}", request.getMethod(), request.getRequestURI());
-
-        if (body != null && !body.trim().isEmpty()) {
-            log.info("Body:\n{}", maskSensitiveData(body));
+    private void logApiDetailsToFile(HttpServletRequest request, String requestBody, int status, String responseBody, long timeTaken) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("\n==================================================\n");
+        builder.append("HTTP REQUEST DETAILS\n");
+        builder.append("Client IP : ").append(getClientIp(request)).append("\n");
+        builder.append("Method    : ").append(request.getMethod()).append("\n");
+        builder.append("URI       : ").append(request.getRequestURI());
+        if (request.getQueryString() != null) {
+            builder.append("?").append(request.getQueryString());
         }
-        log.info("==================================================");
-    }
+        builder.append("\n");
 
-    private void logResponse(HttpServletResponse response, String body, long timeTaken) {
-        log.info("==================================================");
-        log.info("RESPONSE");
-        log.info("Status: {}", response.getStatus());
-
-        if (body != null && !body.trim().isEmpty()) {
-            log.info("Body:\n{}", maskSensitiveData(body));
+        if (requestBody != null && !requestBody.trim().isEmpty()) {
+            builder.append("Request Body:\n").append(maskSensitiveData(requestBody)).append("\n");
         }
-        
-        log.info("Time: {} ms", timeTaken);
-        log.info("==================================================");
+
+        builder.append("--------------------------------------------------\n");
+        builder.append("HTTP RESPONSE DETAILS\n");
+        builder.append("Status    : ").append(status).append("\n");
+        builder.append("Duration  : ").append(timeTaken).append(" ms\n");
+
+        if (responseBody != null && !responseBody.trim().isEmpty()) {
+            builder.append("Response Body:\n").append(maskSensitiveData(responseBody)).append("\n");
+        }
+        builder.append("==================================================");
+
+        apiLog.info(builder.toString());
     }
 
     private String getStringValue(byte[] contentAsByteArray, String characterEncoding) {
@@ -82,16 +103,38 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
             }
             return new String(contentAsByteArray, characterEncoding);
         } catch (UnsupportedEncodingException e) {
-            log.warn("Exception while reading request/response body", e);
             return "[unknown encoding]";
         }
     }
 
+    private boolean isTextOrJson(String contentType) {
+        if (contentType == null) return true;
+        String lower = contentType.toLowerCase();
+        return lower.contains("json") || lower.contains("text") || lower.contains("xml") || lower.contains("form");
+    }
+
+    private boolean isStaticOrDocAsset(String uri) {
+        if (uri == null) return false;
+        return uri.endsWith(".css") || uri.endsWith(".js") || uri.endsWith(".ico") || uri.endsWith(".png")
+                || uri.endsWith(".jpg") || uri.endsWith(".svg") || uri.contains("/v3/api-docs") || uri.contains("/swagger-ui");
+    }
+
+    private String getClientIp(HttpServletRequest request) {
+        String xfHeader = request.getHeader("X-Forwarded-For");
+        if (xfHeader == null || xfHeader.isEmpty()) {
+            return request.getRemoteAddr();
+        }
+        return xfHeader.split(",")[0];
+    }
+
     private String maskSensitiveData(String body) {
-        // Regex to mask sensitive data like password, token, and JWT in JSON payloads
-        String masked = body.replaceAll("\"password\"\\s*:\\s*\"[^\"]+\"", "\"password\": \"[PROTECTED]\"");
-        masked = masked.replaceAll("\"token\"\\s*:\\s*\"[^\"]+\"", "\"token\": \"[PROTECTED]\"");
-        masked = masked.replaceAll("\"jwt\"\\s*:\\s*\"[^\"]+\"", "\"jwt\": \"[PROTECTED]\"");
+        if (body == null || body.isEmpty()) {
+            return body;
+        }
+        String masked = body;
+        masked = masked.replaceAll("(?i)\"(password|oldPassword|newPassword|confirmPassword)\"\\s*:\\s*\"[^\"]+\"", "\"$1\": \"[PROTECTED]\"");
+        masked = masked.replaceAll("(?i)\"(token|accessToken|refreshToken|jwt|secret|apiKey)\"\\s*:\\s*\"[^\"]+\"", "\"$1\": \"[PROTECTED]\"");
+        masked = masked.replaceAll("(?i)Bearer\\s+[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+", "Bearer [PROTECTED]");
         return masked;
     }
 }

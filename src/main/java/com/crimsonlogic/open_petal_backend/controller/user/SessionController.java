@@ -231,6 +231,24 @@ public class SessionController {
         return ResponseEntity.ok(new ApiResponse<>(true, "Conflict raised successfully", null));
     }
 
+    /**
+     * Submits feedback (rating) for a completed session.
+     *
+     * @param authHeader the authorization header containing the user token
+     * @param id the unique identifier of the session
+     * @param request the payload containing the rating
+     * @return ResponseEntity indicating success
+     */
+    @PostMapping("/{id}/feedback")
+    public ResponseEntity<ApiResponse<String>> submitFeedback(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            @PathVariable Long id,
+            @Valid @RequestBody com.crimsonlogic.open_petal_backend.dto.session.SessionFeedbackRequestDto request) {
+        Long currentUserId = authenticateAndGetUserId(authHeader);
+        sessionService.submitFeedback(id, currentUserId, request);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Feedback submitted successfully", null));
+    }
+
     private Long authenticateAndGetUserId(String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new AuthenticationException("Missing or invalid Authorization header");

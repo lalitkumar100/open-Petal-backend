@@ -48,7 +48,7 @@ class AuthServiceImplTest {
     /**
      * Purpose: Verifies full registration transaction flow.
      * Preconditions: Email does not exist.
-     * Expected Behavior: Saves Login, saves User, sends email, returns DTO.
+     * Expected Behavior: Saves Login, saves User, returns DTO.
      */
     @Test
     @DisplayName("Should successfully register a new user")
@@ -71,7 +71,6 @@ class AuthServiceImplTest {
         given(loginRepository.existsByEmail(anyString())).willReturn(false);
         given(loginRepository.save(any(Login.class))).willReturn(savedLogin);
         given(userRepository.save(any(User.class))).willReturn(savedUser);
-        given(jwtUtil.generateVerificationToken(anyString())).willReturn("token-123");
 
         // Act
         RegisterResponseDto response = authService.register(request);
@@ -105,34 +104,5 @@ class AuthServiceImplTest {
                 .hasFieldOrPropertyWithValue("status", HttpStatus.CONFLICT);
 
         verify(loginRepository, times(0)).save(any(Login.class));
-    }
-
-    /**
-     * Purpose: Verifies side-effects (email dispatch) occur correctly.
-     * Preconditions: Successful registration flow.
-     * Expected Behavior: emailService is triggered exactly once.
-     */
-    @Test
-    @DisplayName("Should dispatch verification email upon registration")
-    void givenValidRegistration_whenRegister_thenSendsVerificationEmail() {
-        // Arrange
-        RegisterRequestDto request = new RegisterRequestDto();
-        request.setEmail("verify@example.com");
-
-        Login savedLogin = new Login();
-        savedLogin.setEmail("verify@example.com");
-        User savedUser = new User();
-        savedUser.setEmail("verify@example.com");
-        
-        given(loginRepository.existsByEmail(anyString())).willReturn(false);
-        given(loginRepository.save(any(Login.class))).willReturn(savedLogin);
-        given(userRepository.save(any(User.class))).willReturn(savedUser);
-        given(jwtUtil.generateVerificationToken(anyString())).willReturn("token-123");
-
-        // Act
-        authService.register(request);
-
-        // Assert
-        verify(emailService, times(1)).sendVerificationEmail("verify@example.com", "token-123");
     }
 }

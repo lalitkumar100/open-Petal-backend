@@ -4,29 +4,26 @@ import com.crimsonlogic.open_petal_backend.dto.category.SkillCategoryRequestDto;
 import com.crimsonlogic.open_petal_backend.entity.SkillCategory;
 import com.crimsonlogic.open_petal_backend.service.SkillCategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.Collections;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SkillCategoryController Integration Tests")
@@ -40,6 +37,16 @@ class SkillCategoryControllerTest {
 
     @InjectMocks
     private SkillCategoryController skillCategoryController;
+
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("[SETUP] Initializing SkillCategoryControllerTest suite execution...");
+    }
+
+    @AfterAll
+    static void afterAll() {
+        System.out.println("[TEARDOWN] Completed SkillCategoryControllerTest suite execution.");
+    }
 
     @BeforeEach
     void setUp() {

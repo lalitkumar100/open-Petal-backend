@@ -33,4 +33,13 @@ public class SkillController {
         List<ApiResponse.SkillDTO> skills = skillService.getAllSkills();
         return ResponseEntity.ok(new ApiResponse<>(true, "Skills retrieved successfully", skills));
     }
+
+    @GetMapping("/details/page")
+    public ResponseEntity<?> getAllSkillDetails(
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "0") int page,
+            @org.springframework.web.bind.annotation.RequestParam(defaultValue = "10") int size,
+            @org.springframework.web.bind.annotation.RequestParam(required = false) String search) {
+        org.springframework.data.domain.Page<com.crimsonlogic.open_petal_backend.dto.skill.SkillDetailResponseDto> skillPage = skillService.getAllSkillDetails(page, size, search);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Skill details retrieved successfully", skillPage));
+    }
 }

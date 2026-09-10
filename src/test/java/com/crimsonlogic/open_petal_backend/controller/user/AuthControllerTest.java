@@ -6,10 +6,11 @@ import com.crimsonlogic.open_petal_backend.dto.auth.RegisterRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.auth.RegisterResponseDto;
 import com.crimsonlogic.open_petal_backend.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -18,12 +19,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.time.LocalDate;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("AuthController Integration Tests")
@@ -37,6 +37,16 @@ class AuthControllerTest {
 
     @InjectMocks
     private AuthController authController;
+
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("[SETUP] Initializing AuthControllerTest suite execution...");
+    }
+
+    @AfterAll
+    static void afterAll() {
+        System.out.println("[TEARDOWN] Completed AuthControllerTest suite execution.");
+    }
 
     @BeforeEach
     void setUp() {

@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
 
     %% =========================
@@ -14,10 +15,11 @@ classDiagram
         +LocalDate dob
         +Gender gender
         +String description
+        +Integer credit
+        +Boolean isDeleted
         +List~UserSkill~ skillsOffered
         +List~LearningGoal~ learningGoals
-        +List~AvailabilitySlot~ availableTimeInWeek
-        +isOfValidAge()
+        +isOfValidAge() Boolean
     }
 
     class Login {
@@ -29,7 +31,7 @@ classDiagram
         +LocalDateTime lastLoginAt
         +String reason
         +hashPassword()
-        +verifyPassword()
+        +verifyPassword() Boolean
     }
 
     User "1" --> "1" Login : authentication
@@ -60,23 +62,25 @@ classDiagram
 
 
     %% =========================
-    %% USER SKILLS
+    %% USER SKILLS & LEARNING GOALS
     %% =========================
 
     class UserSkill {
         +Long id
         +User user
         +Skill skill
-        +SkillLevel level
+        +SkillLevel skillLevel
+        +Integer experienceYears
+        +TeachingMode teachingMode
+        +Integer sessionDurationMin
+        +Integer creditsPerSession
+        +BigDecimal avgSkillRating
+        +Integer learnersTaughtCount
+        +Boolean isVerified
+        +String testQuestions
+        +Integer testMarks
+        +Boolean isDeleted
     }
-
-    User "1" --> "0..*" UserSkill : offers
-    Skill "1" --> "0..*" UserSkill : offered by
-
-
-    %% =========================
-    %% LEARNING GOALS
-    %% =========================
 
     class LearningGoal {
         +Long id
@@ -84,17 +88,20 @@ classDiagram
         +Skill skill
         +SkillLevel currentLevel
         +SkillLevel targetLevel
-        +Map~String,Object~ roadplan
+        +String roadplan
+        +Boolean isDeleted
         +LocalDateTime createdAt
         +LocalDateTime updatedAt
     }
 
-    User "1" --> "0..*" LearningGoal : has
+    User "1" --> "0..*" UserSkill : offers
+    Skill "1" --> "0..*" UserSkill : offered by
+    User "1" --> "0..*" LearningGoal : learning goals
     Skill "1" --> "0..*" LearningGoal : target skill
 
 
     %% =========================
-    %% CONNECTION REQUEST
+    %% CONNECTION REQUEST & CHAT
     %% =========================
 
     class ConnectionRequest {
@@ -109,15 +116,29 @@ classDiagram
         +LocalDateTime updatedAt
     }
 
+    class ChatMessage {
+        +Long id
+        +User sender
+        +User receiver
+        +ConnectionRequest connectionRequest
+        +String content
+        +MessageStatus status
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
     User "1" --> "0..*" ConnectionRequest : sends
     User "1" --> "0..*" ConnectionRequest : receives
-
     Skill "1" --> "0..*" ConnectionRequest : primary skill
     Skill "0..1" --> "0..*" ConnectionRequest : offered skill
 
+    ConnectionRequest "1" --> "0..*" ChatMessage : conversation
+    User "1" --> "0..*" ChatMessage : sends
+    User "1" --> "0..*" ChatMessage : receives
+
 
     %% =========================
-    %% LEARNING SESSION
+    %% LEARNING SESSION & FEEDBACK
     %% =========================
 
     class LearningSession {
@@ -143,13 +164,82 @@ classDiagram
         +LocalDateTime updatedAt
     }
 
+    class SessionFeedback {
+        +Long id
+        +LearningSession session
+        +User reviewer
+        +User reviewee
+        +Skill skillRated
+        +Integer rating
+        +LocalDateTime createdAt
+    }
+
     User "1" --> "0..*" LearningSession : learner
     User "1" --> "0..*" LearningSession : mentor
-
     Skill "1" --> "0..*" LearningSession : primary skill
     Skill "0..1" --> "0..*" LearningSession : offered skill
+    Location "0..1" --> "0..*" LearningSession : offline location
 
-    Location "0..1" --> "0..*" LearningSession : used for offline
+    LearningSession "1" --> "0..*" SessionFeedback : feedback
+    User "1" --> "0..*" SessionFeedback : reviews
+    User "1" --> "0..*" SessionFeedback : reviewed
+    Skill "1" --> "0..*" SessionFeedback : rated skill
+
+
+    %% =========================
+    %% SESSION CONFLICT
+    %% =========================
+
+    class SessionConflict {
+        +Long id
+        +LearningSession session
+        +User raisedBy
+        +ConflictReason conflictReason
+        +String learnerStory
+        +String mentorStory
+        +ConflictStatus status
+        +String adminResolutionNotes
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    LearningSession "1" --> "0..1" SessionConflict : conflict
+    User "1" --> "0..*" SessionConflict : raises
+
+
+    %% =========================
+    %% SKILL INQUIRY & USER QUERIES
+    %% =========================
+
+    class SkillInquiry {
+        +Long id
+        +User sender
+        +User receiver
+        +Skill skill
+        +String message
+        +InquiryStatus status
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    class UserQuery {
+        +Long id
+        +User user
+        +QueryType queryType
+        +QueryPriority priority
+        +QueryStatus status
+        +String subject
+        +String description
+        +String adminResponse
+        +LocalDateTime createdAt
+        +LocalDateTime updatedAt
+    }
+
+    User "1" --> "0..*" SkillInquiry : sends
+    User "1" --> "0..*" SkillInquiry : receives
+    Skill "1" --> "0..*" SkillInquiry : requested skill
+
+    User "1" --> "0..*" UserQuery : submits
 
 
     %% =========================
@@ -169,59 +259,25 @@ classDiagram
 
 
     %% =========================
-    %% SESSION CONFLICT
+    %% AI ASSISTANT CHAT
     %% =========================
 
-    class SessionConflict {
-        +Long id
-        +LearningSession session
-        +User raisedBy
-        +String learnerStory
-        +String mentorStory
-        +ConflictStatus status
-        +String adminResolutionNotes
+    class AiChat {
+        +String id
+        +String userId
+        +String title
+        +String summary
+        +LocalDateTime lastMessageAt
         +LocalDateTime createdAt
-        +LocalDateTime updatedAt
     }
 
-    LearningSession "1" --> "0..1" SessionConflict : conflict
-    User "1" --> "0..*" SessionConflict : raises
-
-
-    %% =========================
-    %% SKILL INQUIRY
-    %% =========================
-
-    class SkillInquiry {
-        +Long id
-        +User sender
-        +User receiver
-        +Skill skill
-        +String message
-        +InquiryStatus status
+    class AiChatMessage {
+        +String id
+        +AiChat chat
+        +String role
+        +Object content
         +LocalDateTime createdAt
-        +LocalDateTime updatedAt
     }
 
-    User "1" --> "0..*" SkillInquiry : sends
-    User "1" --> "0..*" SkillInquiry : receives
-    Skill "1" --> "0..*" SkillInquiry : requested skill
-
-
-    %% =========================
-    %% USER QUERIES
-    %% =========================
-
-    class UserQuery {
-        +Long id
-        +User user
-        +QueryType queryType
-        +QueryStatus status
-        +String subject
-        +String description
-        +String adminResponse
-        +LocalDateTime createdAt
-        +LocalDateTime updatedAt
-    }
-
-    User "1" --> "0..*" UserQuery : submits
+    AiChat "1" --> "0..*" AiChatMessage : contains messages
+```

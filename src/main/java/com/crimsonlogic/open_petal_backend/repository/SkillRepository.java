@@ -15,4 +15,6 @@ public interface SkillRepository extends JpaRepository<Skill, Long> {
     boolean existsByName(String name);
     Page<Skill> findByCategoryIdAndIsDeletedFalse(Long categoryId, Pageable pageable);
     Page<Skill> findByCategoryIdAndNameContainingIgnoreCaseAndIsDeletedFalse(Long categoryId, String name, Pageable pageable);
+    Page<Skill> findByIsDeletedFalse(Pageable pageable);
+    Page<Skill> findByNameContainingIgnoreCaseAndIsDeletedFalse(String name, Pageable pageable);
 }

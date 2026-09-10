@@ -34,9 +34,11 @@ public class SessionDetailResponseDto extends SessionSummaryResponseDto {
     private boolean mentorVerifiedStart;
     private boolean learnerVerifiedEnd;
     private boolean mentorVerifiedEnd;
+    
+    private Integer myRating;
 
     @Builder(builderMethodName = "detailBuilder")
-    public SessionDetailResponseDto(Long id, String partnerName, String role, String primarySkillName, SessionType sessionType, LocalDate sessionDate, LocalTime startTime, LocalTime endTime, TeachingMode mode, SessionStatus status, String offeredSkillName, Integer creditsHeld, String meetingLink, String locationName, LocalDateTime createdAt, boolean isMentor, boolean canAccept, boolean canDecline, boolean canCancel, boolean learnerVerifiedStart, boolean mentorVerifiedStart, boolean learnerVerifiedEnd, boolean mentorVerifiedEnd) {
+    public SessionDetailResponseDto(Long id, String partnerName, String role, String primarySkillName, SessionType sessionType, LocalDate sessionDate, LocalTime startTime, LocalTime endTime, TeachingMode mode, SessionStatus status, String offeredSkillName, Integer creditsHeld, String meetingLink, String locationName, LocalDateTime createdAt, boolean isMentor, boolean canAccept, boolean canDecline, boolean canCancel, boolean learnerVerifiedStart, boolean mentorVerifiedStart, boolean learnerVerifiedEnd, boolean mentorVerifiedEnd, Integer myRating) {
         super(id, partnerName, role, primarySkillName, sessionType, sessionDate, startTime, endTime, mode, status);
         this.offeredSkillName = offeredSkillName;
         this.creditsHeld = creditsHeld;
@@ -51,5 +53,6 @@ public class SessionDetailResponseDto extends SessionSummaryResponseDto {
         this.mentorVerifiedStart = mentorVerifiedStart;
         this.learnerVerifiedEnd = learnerVerifiedEnd;
         this.mentorVerifiedEnd = mentorVerifiedEnd;
+        this.myRating = myRating;
     }
 }

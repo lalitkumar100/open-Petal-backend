@@ -18,4 +18,5 @@ public class SkillBadgeDto {
     private String level;
     private Integer creditsPerSession;
     private Integer sessionDurationMin;
+    private Boolean isVerified;
 }

@@ -17,6 +17,7 @@ public class SkillDetailResponseDto {
     private boolean isActive;
     private Long categoryId;
     private String categoryName;
+    private String categoryDescription;
     private LocalDateTime createdAt;
     private long learnersCount;
     private long teachersCount;

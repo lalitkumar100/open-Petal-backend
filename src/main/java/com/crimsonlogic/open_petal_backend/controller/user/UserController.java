@@ -8,6 +8,9 @@ import com.crimsonlogic.open_petal_backend.dto.user.UpdateProfileRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.user.UpdateProfileResponseDto;
 import com.crimsonlogic.open_petal_backend.dto.user.UpdateStatusRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.skill.CreateUserSkillDto;
+import com.crimsonlogic.open_petal_backend.dto.skill.SkillVerificationRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.skill.SkillVerificationResponseDto;
+import com.crimsonlogic.open_petal_backend.dto.skill.UpdateUserSkillDto;
 import com.crimsonlogic.open_petal_backend.dto.skill.CreateLearningGoalDto;
 import com.crimsonlogic.open_petal_backend.dto.user.UpdateStatusResponseDto;
 import com.crimsonlogic.open_petal_backend.entity.User;
@@ -387,7 +390,34 @@ public class UserController {
                 .rating(userSkill.getAvgSkillRating() != null ? userSkill.getAvgSkillRating().doubleValue() : 0.0)
                 .peopleTaught(userSkill.getLearnersTaughtCount())
                 .isActive(!userSkill.getIsDeleted())
+                .isVerified(userSkill.getIsVerified())
+                .testMarks(userSkill.getTestMarks())
                 .build();
+    }
+
+    @GetMapping("/skills/{id}/verify/questions")
+    public ResponseEntity<ApiResponse<String>> getVerificationQuestions(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            @PathVariable Long id) {
+        String email = authenticateAndGetEmail(authHeader);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+
+        String questionsJson = userSkillService.getOrGenerateVerificationQuestions(user.getId(), id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Verification questions retrieved successfully", questionsJson));
+    }
+
+    @PostMapping("/skills/{id}/verify/submit")
+    public ResponseEntity<ApiResponse<SkillVerificationResponseDto>> submitVerificationAnswers(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            @PathVariable Long id,
+            @Valid @RequestBody SkillVerificationRequestDto requestDto) {
+        String email = authenticateAndGetEmail(authHeader);
+        User user = userService.getUserByEmail(email)
+                .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+
+        SkillVerificationResponseDto response = userSkillService.submitVerificationAnswers(user.getId(), id, requestDto.getAnswers());
+        return ResponseEntity.ok(new ApiResponse<>(true, "Verification assessment submitted successfully", response));
     }
 
     private LearningGoalResponseDto mapToLearningGoalDto(LearningGoal learningGoal) {

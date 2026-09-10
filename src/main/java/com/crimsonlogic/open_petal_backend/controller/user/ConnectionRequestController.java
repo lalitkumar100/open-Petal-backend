@@ -92,6 +92,52 @@ public class ConnectionRequestController {
         }
     }
 
+    @GetMapping("/sent")
+    public ResponseEntity<?> getSentConnectionRequests(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        try {
+            String email = authenticateAndGetEmail(authHeader);
+            User user = userService.getUserByEmail(email)
+                    .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+            
+            java.util.List<com.crimsonlogic.open_petal_backend.dto.connection.ConnectionRequestResponseDto> requests = connectionRequestService.getSentConnectionRequests(user.getId());
+            
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("message", "Sent connection requests fetched successfully");
+            result.put("data", requests);
+            return ResponseEntity.ok(result);
+            
+        } catch (Exception e) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", false);
+            result.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+
+    @GetMapping("/received/pending")
+    public ResponseEntity<?> getPendingReceivedRequests(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        try {
+            String email = authenticateAndGetEmail(authHeader);
+            User user = userService.getUserByEmail(email)
+                    .orElseThrow(() -> new CustomException("User not found", HttpStatus.NOT_FOUND));
+            
+            java.util.List<com.crimsonlogic.open_petal_backend.dto.connection.ConnectionRequestResponseDto> requests = connectionRequestService.getPendingReceivedRequests(user.getId());
+            
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            result.put("message", "Pending received connection requests fetched successfully");
+            result.put("data", requests);
+            return ResponseEntity.ok(result);
+            
+        } catch (Exception e) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", false);
+            result.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(result);
+        }
+    }
+
     private String authenticateAndGetEmail(String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new AuthenticationException("Missing or invalid Authorization header");

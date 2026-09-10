@@ -101,7 +101,7 @@ class RegisterRequestDtoTest {
      * Expected Behavior: 1 violation on the isOfValidAge method constraint.
      */
     @Test
-    @DisplayName("Should fail validation when user is under 28")
+    @DisplayName("Should fail validation when user is under 18")
     void givenUnderageUser_whenValidated_thenViolation() {
         // Arrange
         RegisterRequestDto dto = new RegisterRequestDto();
@@ -109,14 +109,14 @@ class RegisterRequestDtoTest {
         dto.setPassword("ValidPass123");
         dto.setFirstName("John");
         dto.setLastName("Doe");
-        dto.setDob(LocalDate.now().minusYears(20));
+        dto.setDob(LocalDate.now().minusYears(16));
 
         // Act
         Set<ConstraintViolation<RegisterRequestDto>> violations = validator.validate(dto);
 
         // Assert
         assertThat(violations).hasSize(1);
-        assertThat(violations.iterator().next().getMessage()).isEqualTo("You must be at least 28 years old");
+        assertThat(violations.iterator().next().getMessage()).isEqualTo("You must be at least 18 years old");
     }
     
     /**

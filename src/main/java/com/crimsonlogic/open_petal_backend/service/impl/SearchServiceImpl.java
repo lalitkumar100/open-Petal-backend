@@ -121,6 +121,7 @@ public class SearchServiceImpl implements SearchService {
                                 .level(us.getSkillLevel() != null ? us.getSkillLevel().name() : "INTERMEDIATE")
                                 .creditsPerSession(us.getCreditsPerSession())
                                 .sessionDurationMin(us.getSessionDurationMin())
+                                .isVerified(us.getIsVerified() != null ? us.getIsVerified() : false)
                                 .build())
                         .collect(Collectors.toList());
 
@@ -170,6 +171,7 @@ public class SearchServiceImpl implements SearchService {
                                 .level(us.getSkillLevel() != null ? us.getSkillLevel().name() : "INTERMEDIATE")
                                 .creditsPerSession(us.getCreditsPerSession())
                                 .sessionDurationMin(us.getSessionDurationMin())
+                                .isVerified(us.getIsVerified() != null ? us.getIsVerified() : false)
                                 .build())
                         .collect(Collectors.toList());
 

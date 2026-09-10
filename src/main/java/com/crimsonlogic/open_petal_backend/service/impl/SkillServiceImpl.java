@@ -143,10 +143,41 @@ public class SkillServiceImpl implements SkillService {
                 .isActive(skill.getIsActive())
                 .categoryId(skill.getCategory() != null ? skill.getCategory().getId() : null)
                 .categoryName(skill.getCategory() != null ? skill.getCategory().getName() : null)
+                .categoryDescription(skill.getCategory() != null ? skill.getCategory().getDescription() : null)
                 .createdAt(skill.getCreatedAt())
                 .learnersCount(learnersCount)
                 .teachersCount(teachersCount)
                 .build();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<SkillDetailResponseDto> getAllSkillDetails(int page, int size, String searchQuery) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+        Page<Skill> skillPage;
+        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            skillPage = skillRepository.findByNameContainingIgnoreCaseAndIsDeletedFalse(searchQuery.trim(), pageable);
+        } else {
+            skillPage = skillRepository.findByIsDeletedFalse(pageable);
+        }
+        
+        return skillPage.map(skill -> {
+            long learnersCount = learningGoalRepository.countBySkillIdAndIsDeletedFalseAndUserLoginIsDeletedFalse(skill.getId());
+            long teachersCount = userSkillRepository.countBySkillIdAndIsDeletedFalseAndUserLoginIsDeletedFalse(skill.getId());
+            
+            return SkillDetailResponseDto.builder()
+                    .id(skill.getId())
+                    .name(skill.getName())
+                    .description(skill.getDescription())
+                    .isActive(skill.getIsActive())
+                    .categoryId(skill.getCategory() != null ? skill.getCategory().getId() : null)
+                    .categoryName(skill.getCategory() != null ? skill.getCategory().getName() : null)
+                    .categoryDescription(skill.getCategory() != null ? skill.getCategory().getDescription() : null)
+                    .createdAt(skill.getCreatedAt())
+                    .learnersCount(learnersCount)
+                    .teachersCount(teachersCount)
+                    .build();
+        });
     }
 
     /**

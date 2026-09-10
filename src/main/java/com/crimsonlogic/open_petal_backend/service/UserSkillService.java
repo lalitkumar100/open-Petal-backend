@@ -36,4 +36,14 @@ public interface UserSkillService {
      * Get User Skill Details.
      */
     UserSkill getUserSkillDetails(Long userId, Long skillId);
+
+    /**
+     * Get or Generate Verification Questions.
+     */
+    String getOrGenerateVerificationQuestions(Long userId, Long skillId);
+
+    /**
+     * Submit Verification Answers.
+     */
+    com.crimsonlogic.open_petal_backend.dto.skill.SkillVerificationResponseDto submitVerificationAnswers(Long userId, Long skillId, java.util.List<String> answers);
 }

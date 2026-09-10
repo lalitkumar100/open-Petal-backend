@@ -15,4 +15,8 @@ public interface ConnectionRequestService {
      * Accept Connection Request.
      */
     ConnectionRequest acceptConnectionRequest(Long receiverId, Long requestId);
+
+    java.util.List<com.crimsonlogic.open_petal_backend.dto.connection.ConnectionRequestResponseDto> getSentConnectionRequests(Long senderId);
+
+    java.util.List<com.crimsonlogic.open_petal_backend.dto.connection.ConnectionRequestResponseDto> getPendingReceivedRequests(Long receiverId);
 }

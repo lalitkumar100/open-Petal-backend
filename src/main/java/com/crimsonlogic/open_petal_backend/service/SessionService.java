@@ -63,6 +63,8 @@ public interface SessionService {
      * Get Session Conflict.
      */
     com.crimsonlogic.open_petal_backend.dto.session.SessionConflictDetailResponseDto getSessionConflict(Long sessionId, Long userId);
+    void submitFeedback(Long sessionId, Long userId, com.crimsonlogic.open_petal_backend.dto.session.SessionFeedbackRequestDto dto);
+
     /**
      * Submit Conflict Story.
      */

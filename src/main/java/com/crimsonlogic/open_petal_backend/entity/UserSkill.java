@@ -79,6 +79,19 @@ public class UserSkill {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "is_verified", nullable = false)
+    @Builder.Default
+    private Boolean isVerified = false;
+
+    @Column(name = "test_questions", columnDefinition = "TEXT")
+    private String testQuestions;
+
+    @Column(name = "test_answers", columnDefinition = "TEXT")
+    private String testAnswers;
+
+    @Column(name = "test_marks")
+    private Integer testMarks;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

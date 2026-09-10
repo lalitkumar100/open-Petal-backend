@@ -1,5 +1,9 @@
 package com.crimsonlogic.open_petal_backend.entity;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.AfterAll;
+
+
 import com.crimsonlogic.open_petal_backend.enums.SessionStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,6 +12,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("LearningSession Entity Tests")
 class LearningSessionTest {
+
+    /**
+     * Purpose: Forces garbage collection before all tests for professional memory management.
+     */
+    @BeforeAll
+    static void beforeAll() {
+        System.gc();
+    }
+
+    /**
+     * Purpose: Forces garbage collection after all tests to free up resources.
+     */
+    @AfterAll
+    static void afterAll() {
+        System.gc();
+    }
+
 
     /**
      * Purpose: Verifies default status is REQUESTED upon creation.

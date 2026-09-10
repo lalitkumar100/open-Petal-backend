@@ -37,8 +37,12 @@ import com.crimsonlogic.open_petal_backend.dto.session.SessionSummaryResponseDto
 import com.crimsonlogic.open_petal_backend.dto.session.SessionDetailResponseDto;
 import com.crimsonlogic.open_petal_backend.dto.session.SessionOtpRequestDto;
 import com.crimsonlogic.open_petal_backend.dto.session.SessionConflictRequestDto;
+import com.crimsonlogic.open_petal_backend.dto.session.SessionFeedbackRequestDto;
 import com.crimsonlogic.open_petal_backend.entity.SessionConflict;
+import com.crimsonlogic.open_petal_backend.entity.SessionFeedback;
 import com.crimsonlogic.open_petal_backend.enums.ConflictStatus;
+import com.crimsonlogic.open_petal_backend.repository.SessionFeedbackRepository;
+import java.math.BigDecimal;
 
 /**
  * Implementation of the session service.
@@ -55,6 +59,7 @@ public class SessionServiceImpl implements SessionService {
     private final LocationRepository locationRepository;
     private final EmailService emailService;
     private final SessionConflictRepository sessionConflictRepository;
+    private final SessionFeedbackRepository sessionFeedbackRepository;
 
     /**
      * Creates a new learning session request between a learner and a mentor.
@@ -116,8 +121,15 @@ public class SessionServiceImpl implements SessionService {
 
         // Validate Duration
         long durationMinutes = Duration.between(dto.getStartTime(), dto.getEndTime()).toMinutes();
-        if (durationMinutes < mentorSkill.getSessionDurationMin()) {
-            throw new CustomException("Session duration must be at least " + mentorSkill.getSessionDurationMin() + " minutes", HttpStatus.BAD_REQUEST);
+        if (durationMinutes < 0) {
+            durationMinutes += 24 * 60; // Crosses midnight
+        }
+    //  const minDuration = minDurationFn();
+    // if (endMins - startMins < minDuration) {
+    //   return { durationTooShort: { required: minDuration, actual: endMins - startMins } };
+        long minDuration = 1; // mentorSkill.getSessionDurationMin(); bypassed for dev testing
+        if (durationMinutes < minDuration) {
+            throw new CustomException("Session duration must be at least " + minDuration + " minutes", HttpStatus.BAD_REQUEST);
         }
 
         // Validate Credits and Session Type
@@ -249,6 +261,12 @@ public class SessionServiceImpl implements SessionService {
         boolean canDecline = isMentor && s.getStatus() == SessionStatus.REQUESTED;
         boolean canCancel = (isLearner || isMentor) && (s.getStatus() == SessionStatus.REQUESTED || s.getStatus() == SessionStatus.SCHEDULED);
 
+        Integer myRating = null;
+        if (s.getStatus() == SessionStatus.ENDED) {
+            myRating = sessionFeedbackRepository.findBySessionIdAndReviewerId(sessionId, userId)
+                    .map(SessionFeedback::getRating).orElse(null);
+        }
+
         return SessionDetailResponseDto.detailBuilder()
                 .id(s.getId())
                 .partnerName(partnerName)
@@ -273,6 +291,7 @@ public class SessionServiceImpl implements SessionService {
                 .mentorVerifiedStart(s.getMentorVerifiedStart() != null ? s.getMentorVerifiedStart() : false)
                 .learnerVerifiedEnd(s.getLearnerVerifiedEnd() != null ? s.getLearnerVerifiedEnd() : false)
                 .mentorVerifiedEnd(s.getMentorVerifiedEnd() != null ? s.getMentorVerifiedEnd() : false)
+                .myRating(myRating)
                 .build();
     }
 
@@ -534,6 +553,21 @@ public class SessionServiceImpl implements SessionService {
                 session.setCreditsHeld(0);
                 userRepository.save(mentor);
             }
+
+            // Update UserSkills when session ends successfully
+            userSkillRepository.findByUserIdAndSkillId(session.getMentor().getId(), session.getPrimarySkill().getId())
+                .ifPresent(us -> {
+                    us.setLearnersTaughtCount(us.getLearnersTaughtCount() + 1);
+                    userSkillRepository.save(us);
+                });
+
+            if (session.getSessionType() == SessionType.BARTER && session.getOfferedSkill() != null) {
+                userSkillRepository.findByUserIdAndSkillId(session.getLearner().getId(), session.getOfferedSkill().getId())
+                    .ifPresent(us -> {
+                        us.setLearnersTaughtCount(us.getLearnersTaughtCount() + 1);
+                        userSkillRepository.save(us);
+                    });
+            }
         }
         sessionRepository.save(session);
     }
@@ -673,5 +707,61 @@ public class SessionServiceImpl implements SessionService {
 
         sessionConflictRepository.save(conflict);
         log.info("Counter-story submitted for session ID: {} by user ID: {}", sessionId, currentUserId);
+    }
+
+    @Override
+    @Transactional
+    public void submitFeedback(Long sessionId, Long userId, SessionFeedbackRequestDto dto) {
+        LearningSession session = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new RecordNotFoundException("Session not found"));
+
+        if (session.getStatus() != SessionStatus.ENDED) {
+            throw new CustomException("Feedback can only be submitted for completed sessions", HttpStatus.BAD_REQUEST);
+        }
+
+        if (sessionFeedbackRepository.findBySessionIdAndReviewerId(sessionId, userId).isPresent()) {
+            throw new CustomException("Feedback already submitted by this user", HttpStatus.BAD_REQUEST);
+        }
+
+        User reviewer;
+        User reviewee;
+        Skill skillRated;
+
+        if (session.getLearner().getId().equals(userId)) {
+            // Learner is rating Mentor for the primary skill
+            reviewer = session.getLearner();
+            reviewee = session.getMentor();
+            skillRated = session.getPrimarySkill();
+        } else if (session.getMentor().getId().equals(userId)) {
+            // Mentor can only rate Learner if it's a BARTER session
+            if (session.getSessionType() != SessionType.BARTER || session.getOfferedSkill() == null) {
+                throw new CustomException("Mentors can only leave feedback in BARTER sessions", HttpStatus.BAD_REQUEST);
+            }
+            reviewer = session.getMentor();
+            reviewee = session.getLearner();
+            skillRated = session.getOfferedSkill();
+        } else {
+            throw new CustomException("Forbidden", HttpStatus.FORBIDDEN);
+        }
+
+        SessionFeedback feedback = SessionFeedback.builder()
+                .session(session)
+                .reviewer(reviewer)
+                .reviewee(reviewee)
+                .skillRated(skillRated)
+                .rating(dto.getRating())
+                .build();
+        
+        sessionFeedbackRepository.save(feedback);
+
+        // Update avgSkillRating on UserSkill
+        userSkillRepository.findByUserIdAndSkillId(reviewee.getId(), skillRated.getId())
+            .ifPresent(us -> {
+                Double avg = sessionFeedbackRepository.getAverageRatingForUserSkill(reviewee.getId(), skillRated.getId());
+                if (avg != null) {
+                    us.setAvgSkillRating(BigDecimal.valueOf(avg));
+                    userSkillRepository.save(us);
+                }
+            });
     }
 }

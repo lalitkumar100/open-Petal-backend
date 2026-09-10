@@ -15,16 +15,16 @@ public class ApiDelayFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        
+
         // Add a 5 second delay to all API requests to test the frontend loaders
         if (request.getRequestURI().startsWith("/api/")) {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         }
-        
+
         filterChain.doFilter(request, response);
     }
 }

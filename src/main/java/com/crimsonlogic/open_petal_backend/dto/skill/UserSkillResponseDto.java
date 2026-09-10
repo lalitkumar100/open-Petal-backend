@@ -22,4 +22,6 @@ public class UserSkillResponseDto {
     private Double rating;
     private Integer peopleTaught;
     private Boolean isActive;
+    private Boolean isVerified;
+    private Integer testMarks;
 }

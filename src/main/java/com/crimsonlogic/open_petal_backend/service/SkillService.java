@@ -42,4 +42,8 @@ public interface SkillService {
      * Get Admin Skill Details.
      */
     SkillDetailResponseDto getAdminSkillDetails(Long skillId);
+    /**
+     * Get All Skill Details with pagination and search.
+     */
+    Page<SkillDetailResponseDto> getAllSkillDetails(int page, int size, String searchQuery);
 }

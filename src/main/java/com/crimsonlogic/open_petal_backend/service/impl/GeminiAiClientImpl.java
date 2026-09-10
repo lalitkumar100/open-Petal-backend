@@ -3,23 +3,23 @@ package com.crimsonlogic.open_petal_backend.service.impl;
 import com.crimsonlogic.open_petal_backend.service.GeminiAiClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Implementation of the gemini ai client service.
- */
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class GeminiAiClientImpl implements GeminiAiClient {
 
@@ -29,61 +29,106 @@ public class GeminiAiClientImpl implements GeminiAiClient {
     @Value("${gemini.model:gemini-1.5-flash-latest}")
     private String modelName;
 
-    private final RestTemplate restTemplate = new RestTemplate();
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
+
+    // Configure RestTemplate and ObjectMapper directly without requiring Spring beans
+    public GeminiAiClientImpl() {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(10000); // 10 seconds
+        factory.setReadTimeout(30000); // 30 seconds
+        
+        this.restTemplate = new RestTemplate(factory);
+        this.objectMapper = new ObjectMapper();
+    }
 
     @Override
     public String generateContent(String systemPrompt, String payload) {
         String cleanModel = modelName != null ? modelName.replace("models/", "") : "gemini-1.5-flash";
-        String url = String.format("https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s", cleanModel, apiKey);
-        
-        log.info("Sending request to Gemini API. URL (without key): https://generativelanguage.googleapis.com/v1beta/models/{}:generateContent", cleanModel);
+        String url = String.format("https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s",
+                cleanModel, apiKey);
+
+        log.info("Sending request to Gemini API. Model: {}", cleanModel);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Build the request body according to Gemini API specs
+        // Build Gemini API payload
         Map<String, Object> requestBody = new HashMap<>();
-        
-        // System instructions
-        Map<String, Object> systemInstruction = new HashMap<>();
-        systemInstruction.put("parts", List.of(Map.of("text", systemPrompt)));
+
+        Map<String, Object> systemInstruction = Map.of(
+                "parts", List.of(Map.of("text", systemPrompt))
+        );
         requestBody.put("system_instruction", systemInstruction);
 
-        // User input payload
-        Map<String, Object> contents = new HashMap<>();
-        contents.put("parts", List.of(Map.of("text", payload)));
+        Map<String, Object> contents = Map.of(
+                "parts", List.of(Map.of("text", payload))
+        );
         requestBody.put("contents", List.of(contents));
 
-        // Enforce JSON output format
-        Map<String, Object> generationConfig = new HashMap<>();
-        generationConfig.put("response_mime_type", "application/json");
+        Map<String, Object> generationConfig = Map.of(
+                "response_mime_type", "application/json"
+        );
         requestBody.put("generationConfig", generationConfig);
 
-        try {
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
-            String response = restTemplate.postForObject(url, entity, String.class);
-            
-            // Extract the actual text from the Gemini response JSON
-            JsonNode rootNode = objectMapper.readTree(response);
-            JsonNode candidatesNode = rootNode.path("candidates");
-            
-            if (candidatesNode.isMissingNode() || !candidatesNode.isArray() || candidatesNode.isEmpty()) {
-                log.error("Empty candidates returned from Gemini. Full response: {}", response);
-                throw new RuntimeException("Gemini API returned no candidates. Possible safety block or empty response.");
+        int maxRetries = 3;
+        int retryDelayMs = 3000;
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
+                String response = restTemplate.postForObject(url, entity, String.class);
+
+                JsonNode rootNode = objectMapper.readTree(response);
+                JsonNode candidatesNode = rootNode.path("candidates");
+
+                if (candidatesNode.isMissingNode() || !candidatesNode.isArray() || candidatesNode.isEmpty()) {
+                    log.error("Empty candidates returned from Gemini. Response: {}", response);
+                    throw new RuntimeException("Gemini API returned no candidates. Check safety ratings or prompt filters.");
+                }
+
+                return candidatesNode.get(0)
+                        .path("content")
+                        .path("parts").get(0)
+                        .path("text").asText();
+
+            } catch (HttpStatusCodeException e) {
+                int status = e.getStatusCode().value();
+                if ((status == 503 || status == 429) && attempt < maxRetries) {
+                    log.warn("Gemini API busy (HTTP {}). Retrying attempt {}/{} in {}ms...", status, attempt, maxRetries, retryDelayMs);
+                    sleep(retryDelayMs);
+                    retryDelayMs *= 2;
+                    continue;
+                }
+                log.error("Gemini API HTTP Error - Status: {}, Body: {}", status, e.getResponseBodyAsString(), e);
+                throw new RuntimeException("Gemini HTTP call failed: " + e.getResponseBodyAsString(), e);
+
+            } catch (ResourceAccessException e) {
+                // Catches socket timeouts and connection timeouts
+                if (attempt < maxRetries) {
+                    log.warn("Gemini API network timeout. Retrying attempt {}/{} in {}ms...", attempt, maxRetries, retryDelayMs);
+                    sleep(retryDelayMs);
+                    retryDelayMs *= 2;
+                    continue;
+                }
+                log.error("Gemini network timeout exceeded maximum retries", e);
+                throw new RuntimeException("Gemini API network error: " + e.getMessage(), e);
+
+            } catch (Exception e) {
+                log.error("Unexpected error interacting with Gemini API", e);
+                throw new RuntimeException("Failed to process Gemini API request", e);
             }
-            
-            return candidatesNode.get(0)
-                           .path("content")
-                           .path("parts").get(0)
-                           .path("text").asText();
-                           
-        } catch (org.springframework.web.client.HttpStatusCodeException e) {
-            log.error("Gemini API HTTP Error - Status: {}, Response Body: {}", e.getStatusCode(), e.getResponseBodyAsString(), e);
-            throw new RuntimeException("Failed to generate content from Gemini: " + e.getResponseBodyAsString(), e);
-        } catch (Exception e) {
-            log.error("Error communicating with Gemini API", e);
-            throw new RuntimeException("Failed to generate content from Gemini", e);
+        }
+
+        throw new RuntimeException("Failed to generate content from Gemini after " + maxRetries + " attempts.");
+    }
+
+    private void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Thread interrupted during retry backoff", ie);
         }
     }
 }
