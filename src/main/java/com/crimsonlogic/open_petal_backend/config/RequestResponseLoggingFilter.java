@@ -4,16 +4,15 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 
 @Component
 public class RequestResponseLoggingFilter extends OncePerRequestFilter {
@@ -49,27 +48,27 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
     }
 
     private void logRequest(HttpServletRequest request, String body) {
-        log.info("==================================================");
-        log.info("REQUEST");
-        log.info("{} {}", request.getMethod(), request.getRequestURI());
+        log.debug("==================================================");
+        log.debug("REQUEST");
+        log.debug("{} {}", request.getMethod(), request.getRequestURI());
 
         if (body != null && !body.trim().isEmpty()) {
-            log.info("Body:\n{}", maskSensitiveData(body));
+            log.debug("Body:\n{}", maskSensitiveData(body));
         }
-        log.info("==================================================");
+        log.debug("==================================================");
     }
 
     private void logResponse(HttpServletResponse response, String body, long timeTaken) {
-        log.info("==================================================");
-        log.info("RESPONSE");
-        log.info("Status: {}", response.getStatus());
+        log.debug("==================================================");
+        log.debug("RESPONSE");
+        log.debug("Status: {}", response.getStatus());
 
         if (body != null && !body.trim().isEmpty()) {
-            log.info("Body:\n{}", maskSensitiveData(body));
+            log.debug("Body:\n{}", maskSensitiveData(body));
         }
         
-        log.info("Time: {} ms", timeTaken);
-        log.info("==================================================");
+        log.debug("Time: {} ms", timeTaken);
+        log.debug("==================================================");
     }
 
     private String getStringValue(byte[] contentAsByteArray, String characterEncoding) {
@@ -88,10 +87,8 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
     }
 
     private String maskSensitiveData(String body) {
-        // Regex to mask sensitive data like password, token, and JWT in JSON payloads
-        String masked = body.replaceAll("\"password\"\\s*:\\s*\"[^\"]+\"", "\"password\": \"[PROTECTED]\"");
-        masked = masked.replaceAll("\"token\"\\s*:\\s*\"[^\"]+\"", "\"token\": \"[PROTECTED]\"");
-        masked = masked.replaceAll("\"jwt\"\\s*:\\s*\"[^\"]+\"", "\"jwt\": \"[PROTECTED]\"");
-        return masked;
+        return body.replaceAll(
+                "(?i)(\"(?:[^\"]*(?:password|token|secret)|authorization)\"\\s*:\\s*\")[^\"]*(\")",
+                "$1[PROTECTED]$2");
     }
 }

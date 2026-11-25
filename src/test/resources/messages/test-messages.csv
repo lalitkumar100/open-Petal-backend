@@ -1,0 +1,3 @@
+code,en,hi,kn
+GREETING,Hello {0},नमस्ते {0},ನಮಸ್ಕಾರ {0}
+FALLBACK,English fallback,,ಕನ್ನಡ ಅನುವಾದ

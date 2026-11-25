@@ -1,0 +1,87 @@
+code,en,hi,kn
+COMMON_ERROR,Something went wrong,कुछ गलत हो गया,ಏನೋ ತಪ್ಪಾಗಿದೆ
+COMMON_VALIDATION_FAILED,Validation failed,मान्यकरण विफल हुआ,ಪರಿಶೀಲನೆ ವಿಫಲವಾಗಿದೆ
+COMMON_BAD_REQUEST,Invalid request,अमान्य अनुरोध,ಅಮಾನ್ಯ ವಿನಂತಿ
+COMMON_METHOD_NOT_ALLOWED,HTTP method not allowed,HTTP विधि अनुमत नहीं है,HTTP ವಿಧಾನ ಅನುಮತಿಸಲಾಗಿಲ್ಲ
+COMMON_DATABASE_CONFLICT,A data conflict occurred,डेटा में विरोध हुआ,ಡೇಟಾ ಸಂಘರ್ಷ ಸಂಭವಿಸಿದೆ
+COMMON_BUSINESS_ERROR,The request could not be completed,अनुरोध पूरा नहीं किया जा सका,ವಿನಂತಿಯನ್ನು ಪೂರ್ಣಗೊಳಿಸಲಾಗಲಿಲ್ಲ
+RESOURCE_NOT_FOUND,The requested resource was not found,अनुरोधित संसाधन नहीं मिला,ಕೋರಿದ ಸಂಪನ್ಮೂಲ ಕಂಡುಬಂದಿಲ್ಲ
+DUPLICATE_RESOURCE,A resource with the same details already exists,इसी विवरण वाला संसाधन पहले से मौजूद है,ಅದೇ ವಿವರಗಳಿರುವ ಸಂಪನ್ಮೂಲ ಈಗಾಗಲೇ ಇದೆ
+AUTH_INVALID_CREDENTIALS,Invalid email or password,ईमेल या पासवर्ड अमान्य है,ಇಮೇಲ್ ಅಥವಾ ಪಾಸ್‌ವರ್ಡ್ ಅಮಾನ್ಯವಾಗಿದೆ
+AUTHENTICATION_REQUIRED,Authentication is required,प्रमाणीकरण आवश्यक है,ದೃಢೀಕರಣ ಅಗತ್ಯವಿದೆ
+ACCESS_DENIED,You are not authorized to perform this action,आपको यह कार्य करने की अनुमति नहीं है,ಈ ಕಾರ್ಯವನ್ನು ಮಾಡಲು ನಿಮಗೆ ಅನುಮತಿ ಇಲ್ಲ
+ADMIN_CONFLICTS_RETRIEVED,Global conflicts retrieved,सभी विवाद प्राप्त हुए,ಎಲ್ಲಾ ಸಂಘರ್ಷಗಳನ್ನು ಪಡೆಯಲಾಗಿದೆ
+ADMIN_CONFLICT_DETAILS_RETRIEVED,Conflict details retrieved,विवाद का विवरण प्राप्त हुआ,ಸಂಘರ್ಷದ ವಿವರಗಳನ್ನು ಪಡೆಯಲಾಗಿದೆ
+ADMIN_CONFLICT_RESOLVED,Conflict resolved successfully,विवाद सफलतापूर्वक सुलझाया गया,ಸಂಘರ್ಷವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪರಿಹರಿಸಲಾಗಿದೆ
+ADMIN_DASHBOARD_WELCOME,Welcome to the admin dashboard,एडमिन डैशबोर्ड में आपका स्वागत है,ನಿರ್ವಾಹಕ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್‌ಗೆ ಸ್ವಾಗತ
+ADMIN_USERS_RETRIEVED,Users retrieved successfully,उपयोगकर्ता सफलतापूर्वक प्राप्त हुए,ಬಳಕೆದಾರರನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+ADMIN_USER_RETRIEVED,User retrieved successfully,उपयोगकर्ता सफलतापूर्वक प्राप्त हुआ,ಬಳಕೆದಾರರನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+ADMIN_USER_DETAILS_RETRIEVED,User details retrieved successfully,उपयोगकर्ता का विवरण सफलतापूर्वक प्राप्त हुआ,ಬಳಕೆದಾರರ ವಿವರಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+ADMIN_SKILL_CATEGORY_CREATED,Skill category created successfully,कौशल श्रेणी सफलतापूर्वक बनाई गई,ಕೌಶಲ್ಯ ವರ್ಗವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ
+ADMIN_SKILLS_RETRIEVED,Skills retrieved successfully,कौशल सफलतापूर्वक प्राप्त हुए,ಕೌಶಲ್ಯಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+ADMIN_SKILL_DETAILS_RETRIEVED,Skill details retrieved successfully,कौशल का विवरण सफलतापूर्वक प्राप्त हुआ,ಕೌಶಲ್ಯದ ವಿವರಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+ADMIN_SKILL_ADDED,Skill added successfully,कौशल सफलतापूर्वक जोड़ा गया,ಕೌಶಲ್ಯವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿಸಲಾಗಿದೆ
+ADMIN_USER_BLOCKED,User blocked successfully,उपयोगकर्ता सफलतापूर्वक अवरुद्ध हुआ,ಬಳಕೆದಾರರನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ
+ADMIN_USER_UNBLOCKED,User unblocked successfully,उपयोगकर्ता सफलतापूर्वक बहाल हुआ,ಬಳಕೆದಾರರ ನಿರ್ಬಂಧವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ತೆಗೆದುಹಾಕಲಾಗಿದೆ
+ADMIN_QUERIES_RETRIEVED,Queries retrieved successfully,प्रश्न सफलतापूर्वक प्राप्त हुए,ಪ್ರಶ್ನೆಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+ADMIN_QUERY_REPLIED,Query replied successfully,प्रश्न का उत्तर सफलतापूर्वक दिया गया,ಪ್ರಶ್ನೆಗೆ ಯಶಸ್ವಿಯಾಗಿ ಉತ್ತರಿಸಲಾಗಿದೆ
+ADMIN_SESSIONS_RETRIEVED,Global sessions retrieved,सभी सत्र प्राप्त हुए,ಎಲ್ಲಾ ಅವಧಿಗಳನ್ನು ಪಡೆಯಲಾಗಿದೆ
+ADMIN_SESSION_DETAILS_RETRIEVED,Session details retrieved,सत्र का विवरण प्राप्त हुआ,ಅವಧಿಯ ವಿವರಗಳನ್ನು ಪಡೆಯಲಾಗಿದೆ
+ADMIN_SESSION_CANCELLED,Session force-cancelled successfully,सत्र सफलतापूर्वक रद्द किया गया,ಅವಧಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ
+AUTH_REGISTER_SUCCESS,User registered successfully,उपयोगकर्ता सफलतापूर्वक पंजीकृत हुआ,ಬಳಕೆದಾರರು ಯಶಸ್ವಿಯಾಗಿ ನೋಂದಾಯಿಸಲ್ಪಟ್ಟಿದ್ದಾರೆ
+AUTH_LOGIN_SUCCESS,Login successful,लॉगिन सफल रहा,ಲಾಗಿನ್ ಯಶಸ್ವಿಯಾಗಿದೆ
+AUTH_EMAIL_VERIFIED,Email verified successfully,ईमेल सफलतापूर्वक सत्यापित हुआ,ಇಮೇಲ್ ಯಶಸ್ವಿಯಾಗಿ ದೃಢೀಕರಿಸಲಾಗಿದೆ
+AUTH_PASSWORD_RESET_EMAIL_SENT,Password reset email sent,पासवर्ड रीसेट ईमेल भेजा गया,ಪಾಸ್‌ವರ್ಡ್ ಮರುಹೊಂದಿಸುವ ಇಮೇಲ್ ಕಳುಹಿಸಲಾಗಿದೆ
+AUTH_PASSWORD_RESET,Password reset successfully,पासवर्ड सफलतापूर्वक रीसेट हुआ,ಪಾಸ್‌ವರ್ಡ್ ಯಶಸ್ವಿಯಾಗಿ ಮರುಹೊಂದಿಸಲಾಗಿದೆ
+CHAT_CONVERSATIONS_RETRIEVED,Conversations fetched successfully,बातचीत सफलतापूर्वक प्राप्त हुई,ಸಂಭಾಷಣೆಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+CHAT_MESSAGES_RETRIEVED,Messages fetched successfully,संदेश सफलतापूर्वक प्राप्त हुए,ಸಂದೇಶಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+CHAT_MESSAGE_SENT,Message sent successfully,संदेश सफलतापूर्वक भेजा गया,ಸಂದೇಶವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಕಳುಹಿಸಲಾಗಿದೆ
+CHAT_MESSAGES_MARKED_READ,Messages marked as read,संदेशों को पढ़ा हुआ चिह्नित किया गया,ಸಂದೇಶಗಳನ್ನು ಓದಲಾಗಿದೆ ಎಂದು ಗುರುತಿಸಲಾಗಿದೆ
+CHAT_UNREAD_COUNT_RETRIEVED,Unread count fetched successfully,अपठित संदेशों की संख्या प्राप्त हुई,ಓದದ ಸಂದೇಶಗಳ ಸಂಖ್ಯೆಯನ್ನು ಪಡೆಯಲಾಗಿದೆ
+CONNECTION_REQUEST_SENT,Connection request sent successfully,कनेक्शन अनुरोध सफलतापूर्वक भेजा गया,ಸಂಪರ್ಕ ವಿನಂತಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಕಳುಹಿಸಲಾಗಿದೆ
+CONNECTION_REQUEST_ACCEPTED,Connection request accepted successfully,कनेक्शन अनुरोध सफलतापूर्वक स्वीकार हुआ,ಸಂಪರ್ಕ ವಿನಂತಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸ್ವೀಕರಿಸಲಾಗಿದೆ
+QUERY_SUBMITTED,Query submitted successfully,प्रश्न सफलतापूर्वक भेजा गया,ಪ್ರಶ್ನೆಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ
+QUERY_RETRIEVED,Query retrieved successfully,प्रश्न सफलतापूर्वक प्राप्त हुआ,ಪ್ರಶ್ನೆಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+SEARCH_RESULTS_RETRIEVED,Search results fetched successfully,खोज परिणाम सफलतापूर्वक प्राप्त हुए,ಹುಡುಕಾಟ ಫಲಿತಾಂಶಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+SEARCH_USER_DETAILS_RETRIEVED,User details fetched successfully,उपयोगकर्ता का विवरण सफलतापूर्वक प्राप्त हुआ,ಬಳಕೆದಾರರ ವಿವರಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+USER_CONFLICTS_RETRIEVED,Fetched my conflicts successfully,मेरे विवाद सफलतापूर्वक प्राप्त हुए,ನನ್ನ ಸಂಘರ್ಷಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+SESSION_CREATED,Session created successfully,सत्र सफलतापूर्वक बनाया गया,ಅವಧಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ
+SESSIONS_RETRIEVED,Sessions retrieved,सत्र प्राप्त हुए,ಅವಧಿಗಳನ್ನು ಪಡೆಯಲಾಗಿದೆ
+SESSION_DETAILS_RETRIEVED,Session details retrieved,सत्र का विवरण प्राप्त हुआ,ಅವಧಿಯ ವಿವರಗಳನ್ನು ಪಡೆಯಲಾಗಿದೆ
+SESSION_CANCELLED,Session cancelled successfully,सत्र सफलतापूर्वक रद्द किया गया,ಅವಧಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ
+SESSION_ACCEPTED,Session accepted successfully,सत्र सफलतापूर्वक स्वीकार हुआ,ಅವಧಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸ್ವೀಕರಿಸಲಾಗಿದೆ
+SESSION_DECLINED,Session request declined successfully,सत्र अनुरोध सफलतापूर्वक अस्वीकार हुआ,ಅವಧಿಯ ವಿನಂತಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನಿರಾಕರಿಸಲಾಗಿದೆ
+SESSION_OTP_RETRIEVED,OTP retrieved successfully,OTP सफलतापूर्वक प्राप्त हुआ,OTP ಅನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+SESSION_START_VERIFIED,Start OTP verified successfully,शुरुआती OTP सफलतापूर्वक सत्यापित हुआ,ಆರಂಭದ OTP ಯಶಸ್ವಿಯಾಗಿ ದೃಢೀಕರಿಸಲಾಗಿದೆ
+SESSION_CONFLICT_DETAILS_RETRIEVED,Conflict details retrieved successfully,विवाद का विवरण सफलतापूर्वक प्राप्त हुआ,ಸಂಘರ್ಷದ ವಿವರಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+SESSION_CONFLICT_STORY_SUBMITTED,Counter-story submitted successfully,जवाबी विवरण सफलतापूर्वक जमा हुआ,ಪ್ರತಿಕ್ರಿಯೆ ವಿವರವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸಲ್ಲಿಸಲಾಗಿದೆ
+SESSION_END_VERIFIED,End OTP verified successfully,समापन OTP सफलतापूर्वक सत्यापित हुआ,ಅಂತ್ಯದ OTP ಯಶಸ್ವಿಯಾಗಿ ದೃಢೀಕರಿಸಲಾಗಿದೆ
+SESSION_CONFLICT_RAISED,Conflict raised successfully,विवाद सफलतापूर्वक दर्ज हुआ,ಸಂಘರ್ಷವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ದಾಖಲಿಸಲಾಗಿದೆ
+LEARNING_GOAL_CREATED,Learning goal created successfully,सीखने का लक्ष्य सफलतापूर्वक बनाया गया,ಕಲಿಕೆಯ ಗುರಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ
+LEARNING_GOAL_RETRIEVED,Learning goal retrieved successfully,सीखने का लक्ष्य सफलतापूर्वक प्राप्त हुआ,ಕಲಿಕೆಯ ಗುರಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+LEARNING_GOALS_RETRIEVED,Learning goals retrieved successfully,सीखने के लक्ष्य सफलतापूर्वक प्राप्त हुए,ಕಲಿಕೆಯ ಗುರಿಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+LEARNING_GOAL_UPDATED,Learning goal updated successfully,सीखने का लक्ष्य सफलतापूर्वक अपडेट हुआ,ಕಲಿಕೆಯ ಗುರಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ
+LEARNING_GOAL_DELETED,Learning goal deleted successfully,सीखने का लक्ष्य सफलतापूर्वक हटाया गया,ಕಲಿಕೆಯ ಗುರಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ
+LEARNING_GOAL_ROADPLAN_UPDATED,Roadplan updated successfully,रोडमैप सफलतापूर्वक अपडेट हुआ,ಕಲಿಕೆಯ ಯೋಜನೆಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ
+SKILL_CATEGORIES_RETRIEVED,Skill categories retrieved successfully,कौशल श्रेणियाँ सफलतापूर्वक प्राप्त हुईं,ಕೌಶಲ್ಯ ವರ್ಗಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+SKILL_CATEGORY_CREATED,Skill category created successfully,कौशल श्रेणी सफलतापूर्वक बनाई गई,ಕೌಶಲ್ಯ ವರ್ಗವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ
+SKILL_CATEGORY_RETRIEVED,Skill category retrieved successfully,कौशल श्रेणी सफलतापूर्वक प्राप्त हुई,ಕೌಶಲ್ಯ ವರ್ಗವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+SKILL_CATEGORY_UPDATED,Skill category updated successfully,कौशल श्रेणी सफलतापूर्वक अपडेट हुई,ಕೌಶಲ್ಯ ವರ್ಗವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ
+SKILLS_RETRIEVED,Skills retrieved successfully,कौशल सफलतापूर्वक प्राप्त हुए,ಕೌಶಲ್ಯಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+USER_PROFILE_RETRIEVED,Profile retrieved successfully,प्रोफ़ाइल सफलतापूर्वक प्राप्त हुई,ಪ್ರೊಫೈಲ್ ಅನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+USER_PASSWORD_CHANGED,Password changed successfully,पासवर्ड सफलतापूर्वक बदला गया,ಪಾಸ್‌ವರ್ಡ್ ಯಶಸ್ವಿಯಾಗಿ ಬದಲಾಯಿಸಲಾಗಿದೆ
+USER_PROFILE_UPDATED,Profile updated successfully,प्रोफ़ाइल सफलतापूर्वक अपडेट हुई,ಪ್ರೊಫೈಲ್ ಅನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ
+USER_STATUS_UPDATED,Account status updated to {0},खाता स्थिति {0} में अपडेट की गई,ಖಾತೆಯ ಸ್ಥಿತಿಯನ್ನು {0} ಗೆ ನವೀಕರಿಸಲಾಗಿದೆ
+USER_AVAILABILITY_RETRIEVED,Availability slots retrieved successfully,उपलब्धता समय सफलतापूर्वक प्राप्त हुए,ಲಭ್ಯತೆಯ ಸಮಯಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+USER_AVAILABILITY_ADDED,Availability slot added successfully,उपलब्धता समय सफलतापूर्वक जोड़ा गया,ಲಭ್ಯತೆಯ ಸಮಯವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿಸಲಾಗಿದೆ
+USER_AVAILABILITY_REMOVED,Availability slot removed successfully,उपलब्धता समय सफलतापूर्वक हटाया गया,ಲಭ್ಯತೆಯ ಸಮಯವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ತೆಗೆದುಹಾಕಲಾಗಿದೆ
+USER_QUERIES_RETRIEVED,User queries retrieved successfully,उपयोगकर्ता के प्रश्न सफलतापूर्वक प्राप्त हुए,ಬಳಕೆದಾರರ ಪ್ರಶ್ನೆಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+USER_SKILLS_RETRIEVED,User skills retrieved successfully,उपयोगकर्ता के कौशल सफलतापूर्वक प्राप्त हुए,ಬಳಕೆದಾರರ ಕೌಶಲ್ಯಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+USER_LEARNING_GOALS_RETRIEVED,User learning goals retrieved successfully,उपयोगकर्ता के सीखने के लक्ष्य प्राप्त हुए,ಬಳಕೆದಾರರ ಕಲಿಕೆಯ ಗುರಿಗಳನ್ನು ಪಡೆಯಲಾಗಿದೆ
+USER_TEACHING_SKILL_ADDED,Teaching skill added successfully,सिखाने का कौशल सफलतापूर्वक जोड़ा गया,ಬೋಧನಾ ಕೌಶಲ್ಯವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿಸಲಾಗಿದೆ
+USER_LEARNING_GOAL_ADDED,Learning goal added successfully,सीखने का लक्ष्य सफलतापूर्वक जोड़ा गया,ಕಲಿಕೆಯ ಗುರಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿಸಲಾಗಿದೆ
+USER_TEACHING_SKILL_DELETED,Teaching skill deleted successfully,सिखाने का कौशल सफलतापूर्वक हटाया गया,ಬೋಧನಾ ಕೌಶಲ್ಯವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ
+USER_LEARNING_GOAL_DELETED,Learning goal deleted successfully,सीखने का लक्ष्य सफलतापूर्वक हटाया गया,ಕಲಿಕೆಯ ಗುರಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಅಳಿಸಲಾಗಿದೆ
+LOCATION_CREATED,Location created successfully,स्थान सफलतापूर्वक बनाया गया,ಸ್ಥಳವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ರಚಿಸಲಾಗಿದೆ
+LOCATIONS_RETRIEVED,Locations retrieved successfully,स्थान सफलतापूर्वक प्राप्त हुए,ಸ್ಥಳಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ
+LOCATION_RETRIEVED,Location retrieved successfully,स्थान सफलतापूर्वक प्राप्त हुआ,ಸ್ಥಳವನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಪಡೆಯಲಾಗಿದೆ

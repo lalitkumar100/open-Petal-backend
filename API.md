@@ -137,3 +137,39 @@
 - **Description**: Unblocks a user, restoring their status to `ACTIVE`.
 - **Response**: `200 OK`
 - **Errors**: `404 Not Found` if the user ID does not exist.
+
+---
+
+## Standard Response Contract
+
+All JSON API responses use the same envelope:
+
+```json
+{
+  "success": true,
+  "messageCode": "AUTH_LOGIN_SUCCESS",
+  "message": "Login successful",
+  "data": {
+    "token": "example-token"
+  }
+}
+```
+
+Failures use the same fields and return an appropriate non-2xx HTTP status:
+
+```json
+{
+  "success": false,
+  "messageCode": "RESOURCE_NOT_FOUND",
+  "message": "The requested resource was not found",
+  "data": null
+}
+```
+
+Validation failures place field names and localized validation messages in `data`. A null `data` value is retained for operations without a response payload. Use the `Accept-Language` request header to select English (`en`), Hindi (`hi`), or Kannada (`kn`); English is the default and translation fallback.
+
+## Runtime Profiles
+
+The default profile is `dev`; production deployments should activate `prod` with `SPRING_PROFILES_ACTIVE=prod`. Configure `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `JWT_SECRET`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, and `MAIL_PASSWORD` through the deployment environment. Development enables application and SQL diagnostic logging (without SQL bind values); production reduces logging and validates the existing schema rather than applying updates. API error envelopes never include stack traces or internal exception details.
+
+This project does not currently include an OpenAPI/Swagger runtime dependency; endpoint paths and response envelopes are documented here.

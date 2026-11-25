@@ -1,0 +1,18 @@
+package com.crimsonlogic.open_petal_backend.location.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class LocationSummaryResponse {
+    private Long id;
+    private String addressLine1;
+    private String area;
+    private String city;
+    private String pincode;
+}

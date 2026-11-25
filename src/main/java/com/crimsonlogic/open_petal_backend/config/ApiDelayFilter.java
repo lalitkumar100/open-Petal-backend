@@ -4,10 +4,9 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
 
 @Component
 public class ApiDelayFilter extends OncePerRequestFilter {
@@ -19,7 +18,7 @@ public class ApiDelayFilter extends OncePerRequestFilter {
         // Add a 5 second delay to all API requests to test the frontend loaders
         if (request.getRequestURI().startsWith("/api/")) {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(0);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
